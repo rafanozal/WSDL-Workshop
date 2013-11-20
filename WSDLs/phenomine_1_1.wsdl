@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl" ?>
+<definitions name="phenomine"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://esysbio.org/phenomine.wsdl"
+	xmlns:sawsdl="http://www.w3.org/ns/sawsdl"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	targetNamespace="http://esysbio.org/phenomine.wsdl">
+	
+	<types>
+		
+		<xsd:schema 
+			xmlns:tns="http://esysbio.org/phenomine.wsdl"
+			xmlns:xmime="http://www.w3.org/2005/05/xmlmime"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			elementFormDefault="qualified"
+			targetNamespace="http://esysbio.org/phenomine.wsdl">
+			
+			<xsd:import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="xmime.xsd"/>
+			
+			
+			<xsd:complexType name="Gene">
+					<xsd:sequence>
+						<xsd:element name="ensembl">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="hgnc" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="mim" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="phenotype" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="matched_morbid" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="matched_snippet" minOccurs="0">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string"/>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+
+				<xsd:complexType name="Genes">
+					<xsd:sequence>
+						<xsd:element name="gene" type="tns:Gene" maxOccurs="unbounded" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			
+			<xsd:element name="Run" type="tns:RunComplexType"/>
+			<xsd:element name="RunResponse" type="tns:RunResponseComplexType"/>
+			<xsd:element name="RunFault" type="tns:RunFaultComplexType"/>
+			
+			<xsd:complexType name="RunComplexType">
+				<xsd:sequence>
+					<xsd:element name="phenotype" type="xsd:string" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation>One or more phenotypes for searching OMIM.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="textMiningSearch" default="false">
+						<xsd:annotation>
+							<xsd:documentation>Perform text mining on the entire OMIM database, in addition to direct morbidmap genes. Can be set to either: 'false' - just getting genes from morbidmap; 'partial' - in addition text mine the descriptions for phenotypes with know molecular basis; 'full' - including the entire OMIM, textmining descriptions to all phenotypes, including those for which the molecular basis is unknown</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="false"/>
+								<xsd:enumeration value="partial"/>
+								<xsd:enumeration value="full"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="RunResponseComplexType">
+				<xsd:sequence>
+					<xsd:element name="geneList" type="tns:Genes"/>
+					<xsd:element name="report" sawsdl:modelReference="http://edamontology.org/data_1622 http://edamontology.org/format_2330 http://wsio.org/transfer_011 http://wsio.org/compression_021" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="RunFaultComplexType">
+				<xsd:sequence>
+					<xsd:element name="RunFault" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			
+			
+			<xsd:element default="" name="Version" type="xsd:string"/>
+			<xsd:element name="VersionResponse" type="tns:VersionResponseComplexType"/>
+			
+			<xsd:complexType name="VersionResponseComplexType">
+				<xsd:sequence>
+					<xsd:element name="versionString" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_1671">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+		</xsd:schema>
+		
+	</types>
+	
+
+	<message name="RunRequestMsg">
+		<part name="parameters" element="tns:Run"></part>
+	</message>
+	<message name="RunResponseMsg">
+		<part name="parameters" element="tns:RunResponse"></part>
+	</message>
+	<message name="RunFaultMsg">
+		<part name="parameters" element="tns:RunFault"></part>
+	</message>
+	
+	<message name="VersionRequest">
+		<part name="parameters" element="tns:Version"></part>
+	</message>
+	<message name="VersionResponse">
+		<part name="parameters" element="tns:VersionResponse"></part>
+	</message>
+
+
+	<portType name="phenominePortType" sawsdl:modelReference="http://edamontology.org/topic_0090 http://edamontology.org/topic_2813">
+		<documentation> This service mines the Online Mendelian Inheritance in Man databasefor genes related to phenotypes, and returns them as a list for the user.
+		</documentation>
+		
+		<operation name="Run">
+			<documentation>Runs the computations and returns the results. This webserver runs in synch.</documentation>
+			<!--<sawsdl:attrExtension sawsdl:modelReference="http://wsio.org/operation_006"/>-->
+			<input message="tns:RunRequestMsg"></input>
+			<output message="tns:RunResponseMsg"></output>
+			<fault name="fault" message="tns:RunFaultMsg"></fault>
+		</operation>
+		
+		<operation name="Version">
+			<sawsdl:attrExtension sawsdl:modelReference="http://edamontology.org/operation_0515"/><!--"Data retrieval (tool metadata)"(0515)-->
+			<input message="tns:VersionRequest">
+				<documentation>A dummy input message.</documentation>
+			</input>
+			<output message="tns:VersionResponse"></output>
+		</operation>
+	</portType>
+	
+	<binding name="phenominePort" type="tns:phenominePortType">
+		<documentation>SOAP binding using document-literal style</documentation>
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="Run">
+			<soap:operation soapAction="http://esysbio.org/phenomine.wsdl/Run"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Version">
+			<soap:operation soapAction="http://esysbio.org/phenomine.wsdl/Version"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="phenomine">
+		<documentation>OMIM mining service</documentation>
+		<port name="phenominePort" binding="tns:phenominePort">
+			<soap:address location="http://cbu.bioinfo.no/ws/phenomine/"/>
+		</port>
+	</service>
+</definitions>

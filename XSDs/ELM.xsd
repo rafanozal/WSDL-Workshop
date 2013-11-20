@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://elm.eu.org/ELM" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" targetNamespace="http://elm.eu.org/ELM" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>ELM type schema for the Eukaryotic Linear Motif  resource.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="ELM" type="ELMType"/>
+	<xs:complexType name="ELMType" sawsdl:modelReference="http://edamontology.org/data_2071 http://edamontology.org/data_2914"><!--"Sequence motif (protein)"(2071)--><!--"Sequence features metadata"(2914)-->
+		<xs:annotation>
+			<xs:documentation>The bioinformatic representation of a functional site in eukaryotic organisms containing a linear motif and a description of the context where this linear motif truly represent a functional site.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Identifier" type="xs:string" nillable="false" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here an alternative motif ID (or accession if stable) named ELM identifier-->
+				<xs:annotation>
+					<xs:documentation>A unique identifier. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Regex" type="xs:string" nillable="false" sawsdl:modelReference="http://edamontology.org/data_2071 http://edamontology.org/data_1021"><!--"Sequence motif (protein)"(2071)--><!--"Sequence feature qualifier"(1021)-->
+				<xs:annotation>
+					<xs:documentation>A regular expression describing the linear motif.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FunctionalSite" type="xs:string" nillable="false" sawsdl:modelReference="http://edamontology.org/data_3034"><!--"Sequence feature identifier"(3034)--><!--Here functional 'site' accession (if stable ID)-->
+				<xs:annotation>
+					<xs:documentation>The Functional Site that this ELM represents.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LongDescription" type="xs:string" nillable="true" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#comment">
+				<xs:annotation>
+					<xs:documentation>A description of this ELM.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShortDescription" type="xs:string" nillable="true" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#label http://edamontology.org/data_1022"><!--"Sequence feature label"(1022)-->
+				<xs:annotation>
+					<xs:documentation>A short description of this ELM.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GOterm" type="GOtermType" nillable="true" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>GO term used to annotate this ELM in the ELM database.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IncludeTaxonomy" type="TaxonomyIDType" nillable="true" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The NCBI taxonomy id of the taxon where this ELM is present.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExcludeTaxonomy" type="TaxonomyIDType" nillable="true" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The NCBI taxonomy id of a taxon where this ELM is not present.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LiteratureReference" type="PubMedIDType" nillable="true" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>PubMed ID to article where this ELM is described.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Instance" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif occurence ID (or accession if stable)-->
+				<xs:annotation>
+					<xs:documentation>Known instance of this ELM.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Accession" type="xs:string" use="required" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif accession (if stable ID) named ELM accession-->
+			<xs:annotation>
+				<xs:documentation>ELM primary key.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreationDate" type="xs:date" use="required" sawsdl:modelReference="http://purl.org/dc/terms/created http://edamontology.org/data_2156"><!--"Date"(2156)-->
+			<xs:annotation>
+				<xs:documentation>Date of the initial submission of this ELM into the ELM database.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ChangeDate" type="xs:date" use="required" sawsdl:modelReference="http://purl.org/dc/terms/modified http://edamontology.org/data_2156"><!--"Date"(2156)-->
+			<xs:annotation>
+				<xs:documentation>Date when this ELM was last edited.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="ELMAccession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif accession (if stable ID) named ELM accession-->
+		<xs:annotation>
+			<xs:documentation>Primary key for retrieval of an ELM from the ELM database.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="FunctionalSiteAccession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_3034"><!--"Sequence feature identifier"(3034)--><!--Here functional 'site' accession (if stable ID)-->
+		<xs:annotation>
+			<xs:documentation>Primary key for retrieval of a Functional Site from the ELM database.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ELMInstanceAccession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif occurence ID (or accession if stable)-->
+		<xs:annotation>
+			<xs:documentation>Primary key for retrieval of an ELM Instance from the ELM database.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="TaxonomyID" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1179"><!--"NCBI taxonomy ID"(1179)-->
+		<xs:annotation>
+			<xs:documentation>NCBI Taxonomy database ID</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PubMedID" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1187"><!--"PubMed ID"(1187)-->
+		<xs:annotation>
+			<xs:documentation>PubMed database ID</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="GOterm" type="GOtermType"/>
+	<xs:complexType name="GOtermType" sawsdl:modelReference="http://edamontology.org/data_0967 http://edamontology.org/data_1176"><!--"Ontology concept metadata"(0967)--><!--"GO concept ID"(1176)-->
+		<xs:annotation>
+			<xs:documentation>A description of a GO term used by the ELM resource.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Ontology" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1051"><!--"Ontology name"(1051)-->
+				<xs:annotation>
+					<xs:documentation>Either BiologicalProcess, MolecularFunction or CellularComponent.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ForFiltering" type="xs:boolean" sawsdl:modelReference="http://edamontology.org/data_2527"><!--"Parameter"(2527)-->
+				<xs:annotation>
+					<xs:documentation>Boolean indicating whether this GO term is used for filtering in the ELM resource or not.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Accession" type="GOAccessionType" sawsdl:modelReference="http://edamontology.org/data_1176"><!--"GO concept ID"(1176)-->
+				<xs:annotation>
+					<xs:documentation>Gene Ontology Accession.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="GOAccession" type="GOAccessionType"/>
+	<xs:complexType name="GOAccessionType" sawsdl:modelReference="http://edamontology.org/data_0967 http://edamontology.org/data_1176"><!--"Ontology concept metadata"(0967)--><!--"GO concept ID"(1176)-->
+		<xs:annotation>
+			<xs:documentation>Gene Ontology Accession</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Database" type="xs:string" fixed="GeneOntology" sawsdl:modelReference="http://edamontology.org/data_1051"/><!--"Ontology name"(1051)-->
+			<xs:element name="Accession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1176"/><!--"GO concept ID"(1176)-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TaxonomyIDType" sawsdl:modelReference="http://edamontology.org/data_1179"><!--"NCBI taxonomy ID"(1179)-->
+		<xs:annotation>
+			<xs:documentation>NCBI Taxonomy database ID</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Database" type="xs:string" fixed="NCBITaxonomy" sawsdl:modelReference="http://edamontology.org/data_1056"/><!--"Database name"(1056)-->
+			<xs:element name="Accession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1179"/><!--"NCBI taxonomy ID"(1179)-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PubMedIDType" sawsdl:modelReference="http://edamontology.org/data_1187"><!--"PubMed ID"(1187)-->
+		<xs:annotation>
+			<xs:documentation>PubMed database ID</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Database" type="xs:string" fixed="PubMed" sawsdl:modelReference="http://edamontology.org/data_1056"/><!--"Database name"(1056)-->
+			<xs:element name="Accession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1187"/><!--"PubMed ID"(1187)-->
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DBReference" type="DBReferenceType"/>
+	<xs:complexType name="DBReferenceType" sawsdl:modelReference="http://purl.org/dc/elements/1.1/identifier http://edamontology.org/data_0842 http://edamontology.org/data_2091"><!--"Identifier"(0842)--><!--"Accession"(2091)-->
+		<xs:annotation>
+			<xs:documentation>A reference to a item in a external database.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Database" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1056"><!--"Database name"(1056)-->
+				<xs:annotation>
+					<xs:documentation>The name of the external database.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Accession" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_2091"><!--"Accession"(2091)-->
+				<xs:annotation>
+					<xs:documentation>The accession key of the item.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

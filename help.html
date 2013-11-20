@@ -1,0 +1,280 @@
+ 
+<h1>WSDL Workshop</h1>
+
+<h3>A semantic web tool to create workflows with computer assistance.</h3>
+
+<a name="INDEX"></a> 
+<h1> INDEX </h1>
+<ol>
+<li><a href="#INDEX">Index</a></li>
+<li><a href="#INTRODUCTION">Introduction</a></li>
+<li><a href="#THE_THEORY">The theory</a></li>
+<li><a href="#THE_PROGRAM">The program</a></li>
+<ol>
+<li><a href="#License">License</a></li>
+<li><a href="#Prerequisites">Prerequisites</a></li>
+<li><a href="#Starting">Starting</a></li>
+<li><a href="#Sidebar">Sidebar</a></li>
+</ol>
+</ol>
+
+<a name="INTRODUCTION"></a> 
+<h1> INTRODUCTION </h1>
+
+<p>blabla</p>
+
+<a name="THE_THEORY"></a> 
+<h1> THE THEORY </h1>
+
+<p>blabla</p>
+
+<a name="THE_PROGRAM"></a> 
+<h1> THE PROGRAM </h1>
+
+<p>[ADD THE SCREENSHOOTS WHEN DESIGN IS FINISH]</p>
+
+<p>This section will explain you how to use the program with detail. </p>
+
+<a name="License"></a> 
+<h2>License</h2>
+
+<p>EDAM Ontology was developed in the University of Bergen by Ison, J., Kalaš, M., Jonassen, I., Bolser, D., Uludag, M., McWilliam, H., Malone, J., Lopez, R., Pettifer, S. and Rice, P. The WSDLs and XSDs which accompany the source code were taken from the University of Bergen also. Please refer to this institution if you want to use any of that work.</p>
+
+<p> I made use of Geany [3] editor in a Ubuntu 10 [4] most of the time. And Netbeans [5] with Glassfish [6] server plugging for certain demonstration purposes running in a Ubuntu 12. The private server in which I'm running this program is a Linux Mint Server Edition [7] which is based in Apache. All of this have a GNU license. The icons in the toolbar and in the side menu have a LGPLv3 license.</p>
+
+<p>Everything else I did it myself from scratch. So I decided to license it under a Creative Common Share alike - Non profit - By  license. [AA]</p>
+
+<a name="Prerequisites"></a> 
+<h2>Prerequisites</h2>
+
+<h3>CHROMIUM BROWSER [12]</h3>
+
+<h3>COMPUTER MINIMAL SPECS</h3>
+
+<p>I managed to run this on a 1GHz Intel / 512MB RAM computer without any problem. The program it self is fairly lightweight and it will only run slow at the beginning, while it initialize the ontology and parsing the WSDLs.</p>
+
+<p>You should be able to run it also in any device that has a browser with Javascript enable, such a smart phone or a tablet, and given that the browser you are using has a compatible rendering engine with WebKit [13], such as Safari or Chrome for example. The program will scale automatically to the size of your window, so if the screen is very tiny, as long as you have slim fingers or a pointer device, you should expect no troubles.</p>
+
+<a name="Starting"></a> 
+<h2>Starting</h2>
+
+<p>In order to start running the program you can do two things:</p>
+
+<p>A) Go to this website [insert final web site] that will link you to my private server where the program is available (most of the time).</p>
+
+<p>B) Run your own server and simply navigate your filesystem with a browser until you find the index.html. As stated early, the most simple solution could be to run Netbeans and start the Glassfish server from there; if you use this option add the docroot folder directly into the docroot folder of the Glassfish directory, and it should run fine. There should be a copy with this thesis. Alternatively you can download from [GIT SOURCE]</p>
+
+<p>Once everything is running the program will start automatically as soon as you visit the index.html. The program will first show you a welcome splash screen where you can read “WSDL Workshop”. In the background, the program will start parsing the default WSLDs and XSDs which come in the /wsdl and /xsd folder. It will also parse the ontology in /res/ontology, and create the necessaries data structures in memory.  Once finish, is ready to use and the splash screen will turn white as soon as you click anywhere.</p>
+
+<p>Notice that the parsing should take no longer than approximately 4 seconds even if you are running it in an old machine. Unless of course you suddenly added hundreds of new WSDLs to the directory or modify the existing ones with gazillion annotations.</p>
+
+<a name="Sidebar"></a> 
+<h2>Sidebar</h2>
+
+<p>In the sidebar you will find 3 main sections. The WSDL filter on top, the WSDL entities in the middle, and some extra filtering options in the button.</p>
+
+<h3>TOP</h3>
+
+<p>In the top you can read  “WSDLs filters:”.</p>
+
+<h4>Tree/List View Swapper</h4>
+
+<p> Right to the title you can find the tree/list view swapper. What this does is change the middle view. By default is set to start in list mode. So you will see all the default WSDLs in the middle. These WSDLs start with no filter apply to them. If you press this bottom it will change into a tree view where you can find the ontology viewer. This viewer will allow you to discover WSDLs related to a topic that you search in particular. You can tune your filtering with the options in the button of the sidebar.</p>
+
+<h4>Filter text</h4>
+
+<p> This bar allow you to write some text. Ass you write you will find a 			collection of operations, inputs, outputs and topics that are display to the left of it. These are all the concepts which 		are currently available in all the WSDLs in the program. This concepts that are 			shown to you contain the text that you inputted in their title. You can modify 		this filter with the options at the button.
+
+<h4>Sort by name</h4>
+
+<p> This option will sort the WSDL list alphabetically, or in reverse if it was currently starting by A. If the view is set in Tree-mode, it will sort the tree	accordingly.</p>
+
+<h4>Add new WSDL</h4>
+
+<p> When this icon is clicked it will start an explorer window so you can localize your own WSDL file and import it into the program. Shall the program not be able to recognize and parse the WSDL you will be prompted with a comprehensive error message. Otherwise the WSDL will be added and be ready to use. Make sure that your filters option are compatible with the WSDL you just enter, otherwise it won't be shown until you set the filter so that WSDL accomplish all the requirements.</p>
+
+<h3>MIDDLE</h3>
+
+<p> In the middle of the side bar you can encounter two types of views, the list view and the tree view. By default you have the list view and you can change this with the bottom at the top of the sidebar.</p>
+
+<h4>List view</h4>
+
+<p> In the list view you can find the WSDL listed in the order they were parsed. You can sort them alphabetically by their title if so you wish so. Each WSDL can be expanded with the “+” bottom on it side. Once expanded you will see the different ports that compose the WSDL. Normally you will only find one port per WSDL. Ports can be expanded too; once you do so, you will see the operations list that compose each port.</p>
+
+<p>The operations are the entities that you can add to the canvas. You will find two bottoms in each operation. You can expand further the operation to see a preview of the inputs and outputs which will show name and datatype of them. The other thing you can do is to add the operation into the workflow canvas.</p>
+
+<p>You can collapse the operation, port and WSDL by clicking in the “-” sign which will replace the “+” sign once you expend then.</p>
+
+<h4>Tree view</h4>
+
+<p>In the tree view you can explore the operations of the WSDLs you have available from the ontology point of view. For each ontology entry you will find also a “+” sign which will expend the concept, or a “-” sign which will collapse it again.</p>
+
+<p>You can find four sub-ontologies here. Operations, Data, Topic and Format. Each of these concepts, once expanded, will show the concepts that hangs under then. Please refer to the relationship “is_a” in the ontology section to know more.</p>
+
+<p>In the Operations ontology you can find operations which have the given concept annotated in then, and you can add them the same way you do in the list view.</p>
+
+<p>In the Data ontology you can find operations which have either an input or an output annotated with the concept which you are exploring at that moment.</p>
+
+<p>In the Topic ontology you can find operations which have the current topic annotated inside. This could be at any level, the operation, one of the data, the element of the data, the type of the data, and so on.</p>
+
+<p>In the Format ontology you can find operations which have either an input or an output annotated with that format.</p>
+
+<p>In general this view is useful for exploring the ontology and discover operations related to a concept that you didn't think about it could exist.</p>
+
+<h3>BUTTON</h3>
+
+<p>Here you can find filtering options that will hide or show WSDLs or operations in the middle section of the sidebar.</p>
+
+<h4>Filters options</h4>
+
+<p>On the top of the sidebar you can find a text searcher. As you type in that bar you will find concepts that pop out. By default you will find this filter set to nothing, and it will look for that concepts in the operation names, inputs names, outputs names, and semantically annotated topics.</p>
+
+<p>You can however change the filter option. If you select one ore more, it will filter by those groups, and will show you operations that match all of the cases. For example if you select “operation” and “input” and enter the word “sequence” it will show you WSDLs which contains operations with the string sequence and at least one input with the name sequence.</p>
+
+<p>You can combine this with the tree view as well.</p>
+
+<h4>Input compatible</h4>
+
+<p>If you have selected an operation output in the canvas you can use this option.</p>
+
+<p>This will filter the operations in the middle of the sidebar to only those which are compatible (or not, depending of your selection) with the current selected output. So for example if you want to make sure to find an operation that can receive the string that your current operation is outputting and you have selected, you will make use of this option, and select the options “yes” and “possible”. Please refer to the chapter Making Links Simplified for a complete documentation of what means each of them exactly.</p>
+
+<h4>Semantic compatible</h4>
+
+<p>This works similar to the 'Input Compatible' option. When you select an output of an operation or a single operation, you can filter the WSDLs to show only WSDLs which operations are compatible (or not, depending of your selection) with the selected piece in the canvas. Please refer to the chapter Semantic Correlation for a complete documentation of what means each of them exactly.</p>
+
+<h2>Toolbar</h2>
+
+<p>This is the bar that appears in the bottom of the screen and bellow the canvas section. This is a series of tools to interact with the canvas.</p>
+
+<h3>New</h3>
+
+<p>Reboot the canvas and start a new workflow project.</p>
+
+<h3>Open</h3>
+
+<p>Open an old workflow project file. Your current project will be lost if you don't save it first</p>
+
+<h3>Save</h3>
+
+<p>Save the current project into a file in your device.</p>
+
+<h3>Cut</h3>
+
+<p>Delete the selected operation including links and save them in a temporary variable. If you cut something else your old operation will be lost. If you copy something else your old operation will be lost</p>
+
+<h3>Copy</h3>
+
+<p>Copy the selected operations including links and save them in a temporary variable. If you cut something else that will replace the temporary variable, if you copy something else that will also replace it.</p>
+
+<h3>Paste</h3>
+
+<p>Put the temporary variable inside the canvas. If there is no temporary variable nothing will happen.</p>
+
+<h3>Zoom in</h3>
+
+<p>This will increase the zoom in the canvas and everything will appear bigger. You can also do this with the keyboard shortcut “+”. The program limit the zoom level to +5; which is a screen 32x smaller than the original.</p>
+
+<h3>Zoom 1:1</h3>
+
+<p>This will modify the zoom to return to the default state.</p>
+
+<h3>Zoom out</h3>
+
+<p>This will decrease the zoom in the canvas and everything will appears smaller. You can also 	do this with the keyboard shortcut “-”. The program limit the zoom level to -2; which is a screen 8x bigger than the original.</p>
+
+<h3>Delete Piece</h3>
+
+<p>Delete the selected operation from the canvas. You can also do this with the button in the operation itself and with the keyboard shortcut “Del”.</p>
+
+<h3>Delete All</h3>
+
+<p>Delete every piece in the canvas. In practice this has no difference with the New workflow option except that you can still undo this.</p>
+
+<h3>Take picture</h3>
+
+<p>Save the current status of the canvas into a PNG image. The picture will be open in a new window.</p>
+
+<h3>Help</h3>
+
+<p>It will display this manual in a new window.(this page)</p>
+
+<h3>Aligning options</h3>
+
+<p>Its allow you to move the operations so they align nicely to each other. You can find the six 	standard aligning option that you will find in any other design program. You need to select two or more pieces to see the effect.</p>
+
+<h2>Canvas</h2>
+
+<p>In here is where you will play with the program. Here is where the pieces are added and where you have to connect one piece with the other.
+
+<p>If you click in the adding button of the sidebar a new piece will appear in the canvas. The operation box have several elements. On top of it you will see a black bar with several bottoms. Then you will find an empty space with the operation name. Then a bigger space with the inputs and outputs. And finally the foot's bar with the final options.</p>
+
+<h3>Top bar</h3>
+
+<p>This is the thin black bar on top of each operations and the thick orange one after that. You will find a series of options in it.</p>
+
+<h4>Delete operation</h4>
+
+<p>You can delete the operation with the red button. All links coming from or coming out the operation will also be deleted.</p>
+
+<h4>Minimize operation.</h4>
+
+<p>This is the yellow button. It will hide the middle space. You can still see links that come out of the piece or into it. You can undo the process by simply clicking in the button again. If two operations which are connected are minimized then only the operation link will be show, and the links in between inputs and outputs of those two operations will be hidden.</p>
+
+<h4>Expand semantic view.</h4>
+	
+<p>This button will show you all annotations which are related with this piece. The operation annotations are show at the button of the piece, while the data annotations are display bellow each data. Sometimes the data annotations can be a bit overwhelming. In that case, if you collapse the operation box it will only show the annotations for that level and nothing from the levels bellow.</p>
+
+<h4>Title</h4>
+
+<p>In this section you will find the title of the operation. At both sides, you can find the operation links if the operation is connected with anything.</p>
+
+<h4>Semantic Correlation Link.</h4>
+
+<p>When you link types between operations the operations headers will be automatically 	linked. The color scheme of the operation link represent the semantic correlation between then. Please refer to the semantic correlation section for more information.</p>
+
+<h3>Middle space</h3>
+
+<h4>Input and output connection boxes.</h4>
+
+<p>In order to make a link between two operations just click in an output first and then in the input you want to link. You will see a preview of the link next to the input in the form of a highlight color which indicates which kind of link will be. Please refer to the chapter [?] for a complete documentation of what means each of them exactly.</p>
+
+<p>Once you made a link between an output and an input, the operations will also be link. Remember that the quality of the operation link has nothing to do with the quality of the links of it outputs or inputs.</p>
+
+<p>If you want to delete a link or more than one link, click with the right button of the mouse and drag a line. Every link that the line cross will be cut and deleted. If this leave two operations unconnected, the operation link will be sever as well. If you try to delete an operation link nothing will happen. You must cut the link between two operation inputs/output for successfully cut the link at the operation level.</p>
+
+<p>Note that there is an important restriction when making links. You shall never form a cycle. You can however copy the same operation several time and link one after each other.</p>
+
+<h3>Foot bar</h3>
+
+<h4>WSDL Name</h4>
+
+<p>This is a reminder of from which WSDL did the operation came. Some times the operations have the same generic title; as in “getDataByID”. So it is nice to distinguish one from the other by the original WSDL file.</p>
+
+<h4>Color roulette</h4>
+
+<p>This is a deprecated function that originally was use to explore semantically correlated operations by colors. However I decided that it is a nice thing to have and give the user the option of personalization, and let the user organize operations by background color.</p>
+
+<p>In order to change the color simply click the rectangle, and without release the click, move the lever around the color wheel to select a new one.</p>
+
+<h3>Scale anchors</h3>
+
+<p>When clicked on an operation you have the opportunity of change the size of the piece. The links and texts which are inside will automatically change size too, and keep the same proportion of the original box.</p>
+
+<h3>Multiple selection</h3>
+
+<p>If you click on an empty space and drag the mouse you will form a rectangle. Once you release the bottom, the program will select every piece which is inside the rectangle. Multiple pieces can be deleted at once or be move.</p>
+
+<h3>Workflow score</h3>
+
+<p>If you click the middle mouse the canvas will shift into workflow view. Here you can see the workflow score for each operation and the accumulated score for every operation that is connected before.</p>
+
+<p>In each operation you will see the topics which have been annotated. Also you can see a list of operations which is connected to it. If an operation have no previous operations or no topic the workflow score will be 0, and a message regarding this will be show.</p>
+
+<p>Please refer to the chapter of the workflow score for a more detailed insight on how does it work and what does it means.</p>
+
+<h3>Keyboard shorcuts</h3>
+
+<p>[CHECK THE CODE AND FILL THIS]</p>
+
+<p>In this chapter we reviewed how to use the program with detail for each of the sections that compose the screen. It is important that the user review the concepts presented in previous chapters in order to understand everything perfectly. But hopefully the design is intuitive and the user will attempt to link operations without troubles and use most of the tools without doubts. </p>

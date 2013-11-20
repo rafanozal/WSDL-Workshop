@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl" ?>
+<wsdl:definitions name="WebNMAComparativeAnalysis"
+	targetNamespace="http://www.bccs.uni.no/units/cbu/service/webnma/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://www.bccs.uni.no/units/cbu/service/webnma/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:sawsdl="http://www.w3.org/ns/sawsdl"
+>
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bccs.uni.no/units/cbu/service/webnma/">
+
+			<xsd:simpleType name="JobId" sawsdl:modelReference="http://wsio.org/data_009">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="60" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:simpleType name="resultDataType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="DAT" />
+					<xsd:enumeration value="PDF" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="FileType">
+				<xsd:sequence>
+					<xsd:element name="filename" type="xsd:string" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="fileContent" type="xsd:string" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_011" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:element name="CheckStatus" >
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="CheckStatusResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StatusMsg" sawsdl:modelReference="http://wsio.org/data_010">
+							<xsd:simpleType>
+								<xsd:annotation>
+									<xsd:documentation>A list of possible states of a job</xsd:documentation>
+								</xsd:annotation>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="SUBMITTED" sawsdl:modelReference="http://wsio.org/data_27" />
+									<xsd:enumeration value="INPROGRESS" sawsdl:modelReference="http://wsio.org/data_27" />
+									<xsd:enumeration value="COMPLETE" sawsdl:modelReference="http://wsio.org/data_28" />
+									<xsd:enumeration value="ERROR" sawsdl:modelReference="http://wsio.org/data_29" />
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="ComparativeAnalysisFault">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="errorMsg" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="StartComparativeDynamicsProfilesAnalysis">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="fastaFile" type="tns:FileType" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="pdbFiles" type="tns:FileType" minOccurs="1" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="StartComparativeDynamicsProfilesAnalysisResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="StartComparativeConformationalOverlapAnalysis">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="fastaFile" type="tns:FileType" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="pdbFiles" type="tns:FileType" minOccurs="1" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="StartComparativeConformationalOverlapAnalysisResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchComparativeFluctuationProfilesURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchComparativeFluctuationProfilesURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="comparativeFluctuationProfilesURI"
+							type="xsd:anyURI"
+							sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013 " />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchWarningsAndErrors">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchWarningsAndErrorsResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="warnings" type="xsd:string" minOccurs="0" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_011" />
+						<xsd:element name="errors" type="xsd:string" minOccurs="0" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_011" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchGeneratedPDBURIs">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchGeneratedPDBURIsResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="pdbFileURIs" type="xsd:string" minOccurs="1" maxOccurs="unbounded" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013 " />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchComparativeDeformationEnergiesURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchComparativeDeformationEnergiesURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="comparativeDeformationEnergiesURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013 " />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchConformationalOverlapURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://wsio.org/data_009"/>
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchConformationalOverlapURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="conformationalOverlapURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013 " />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+		</xsd:schema>
+	</wsdl:types>
+
+
+
+
+	<wsdl:message name="CheckStatusRequest">
+		<wsdl:part name="parameters" element="tns:CheckStatus"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="CheckStatusResponse">
+		<wsdl:part name="parameters" element="tns:CheckStatusResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="ComparativeAnalysisFault">
+		<wsdl:part name="fault" element="tns:ComparativeAnalysisFault"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="StartComparativeDynamicsProfilesAnalysisRequest">
+		<wsdl:part name="parameters" element="tns:StartComparativeDynamicsProfilesAnalysis"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="StartComparativeDynamicsProfilesAnalysisResponse">
+		<wsdl:part name="parameters"
+			element="tns:StartComparativeDynamicsProfilesAnalysisResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="StartComparativeConformationalOverlapAnalysisRequest">
+		<wsdl:part name="parameters" element="tns:StartComparativeConformationalOverlapAnalysis"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="StartComparativeConformationalOverlapAnalysisResponse">
+		<wsdl:part name="parameters"
+			element="tns:StartComparativeConformationalOverlapAnalysisResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchComparativeFluctuationProfilesURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchComparativeFluctuationProfilesURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchComparativeFluctuationProfilesURIResponse">
+		<wsdl:part name="parameters"
+			element="tns:FetchComparativeFluctuationProfilesURIResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchWarningsAndErrorsRequest">
+		<wsdl:part name="parameters" element="tns:FetchWarningsAndErrors"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchWarningsAndErrorsResponse">
+		<wsdl:part name="parameters" element="tns:FetchWarningsAndErrorsResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchGeneratedPDBURIsRequest">
+		<wsdl:part name="parameters" element="tns:FetchGeneratedPDBURIs"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchGeneratedPDBURIsResponse">
+		<wsdl:part name="parameters" element="tns:FetchGeneratedPDBURIsResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchComparativeDeformationEnergiesURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchComparativeDeformationEnergiesURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchComparativeDeformationEnergiesURIResponse">
+		<wsdl:part name="parameters"
+			element="tns:FetchComparativeDeformationEnergiesURIResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchConformationalOverlapURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchConformationalOverlapURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchConformationalOverlapURIResponse">
+		<wsdl:part name="parameters" element="tns:FetchConformationalOverlapURIResponse"></wsdl:part>
+	</wsdl:message>
+
+
+
+
+	<wsdl:portType name="WebNMAComparativeAnalysis" sawsdl:modelReference="http://edamontology.org/topic_2814 http://edamontology.org/operation_2426">
+		<wsdl:documentation>Performs comparative normal mode analysis on structures.
+Provide coordinate information (PDB format) for equilibrium structures and a suitable alignment (FASTA format) identifying which residues should be compared.
+Submit the structures and the alignment with StartComparativeDynamicsProfilesAnalysis for a default analysis or with StartConformationalOverlapAnalysis. The last analysis performs overlap analysis in addition to the default analyses, but is computationally demanding. 
+Each input file must be given with filename and content. Content must be base64-encoded. 
+All results are in the form of a URI, you can retrieve the file with your favourite FTP program. 
+
+StartComparativeDynamicsProfilesAnalysis enables you to fetch comparative fluctuation profiles, comparative deformation energies, the PDB file with the coordinates that were used for the computation as well as warnings and errors. If you need conformational overlap analysis (limited in the number of alignments) in addition, run StartComparativeConformationalOverlapAnalysis.</wsdl:documentation>
+
+		<wsdl:operation name="CheckStatus">
+			<wsdl:documentation>Poll the status of a submitted job. A running job returns INPROGRESS, finished job returns COMPLETE (but can have warnings), SUBMITTED jobs are queued for execution. Jobs that do not run will return ERROR.
+Warnings and errors can be retrieved with the FetchWarningsAndErrors operation and should be run even when a job finishes successfully.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_007" />
+			<wsdl:input message="tns:CheckStatusRequest"></wsdl:input>
+			<wsdl:output message="tns:CheckStatusResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="StartComparativeDynamicsProfilesAnalysis">
+			<wsdl:documentation>Starts calculation of normal modes for aligned structures. 
+For each file, both filename and content (base64-encoded) must be given in the FileType element. 
+The alignment file should be fasta-formatted with |-delimited fields in each header.
+The name must correspond to the filename of a submitted structure and a valid chain identifier is given last. 
+An example of how you specify chain A of the structure in file 1FUJ.pdb:
+>1FUJ.pdb|additional information not parsed|A
+
+Structures should be PDB-formatted and all records in the alignment must have corresponding PDB files submitted.
+The sequence should correspond to the alpha-carbons of the standard residues in the submitted structure.
+
+Only alpha-carbon atoms of standard residues will be used for model building.
+
+The returned job id can be used to retrieve results and poll the state of the job.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_006" />
+			<wsdl:input message="tns:StartComparativeDynamicsProfilesAnalysisRequest"></wsdl:input>
+			<wsdl:output message="tns:StartComparativeDynamicsProfilesAnalysisResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="StartComparativeConformationalOverlapAnalysis">
+			<wsdl:documentation>Starts conformational overlap analysis in addition to the analyses computed in StartComparativeDynamicsProfilesAnalysis. From this you can get all results from the service using the job id returned from this operation. Conformational overlap analysis is computationally intensive, please check the webnma website for usage limitations (such as maximum number of structures that are allowed in the alignment).</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_006" />
+			<wsdl:input message="tns:StartComparativeConformationalOverlapAnalysisRequest"></wsdl:input>
+			<wsdl:output message="tns:StartComparativeConformationalOverlapAnalysisResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchComparativeFluctuationProfilesURI">
+			<wsdl:documentation>Fetches the comparative fluctuation profile.
+
+The job id returned by StartComparativeDynamicsProfilesAnalysis or StartComparativeConformationalOverlapAnalysis should be provided as input, together with the result type you want back, either raw file (default, DAT) or a ready-made plot (PDF).
+
+The raw file contains atomic fluctuations for all the alpha-carbons in all the analyzed structures.
+Each row correspond to an alignment index and each column to a structure.
+Columns are labeled with one header row. nan represents gaps in the alignment. 
+
+Returns a URI for the file location.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchComparativeFluctuationProfilesURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchComparativeFluctuationProfilesURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchWarningsAndErrors">
+			<wsdl:documentation>Fetches warnings and errors for a job. Use the job id returned from StartComparativeDynamicsProfilesAnalysis or StartComparativeConformationalOverlapAnalysis as input.
+
+Warnings can be issued even if the job completes, be sure to check them.
+Both errors and warnings (if any) are base64 encoded.</wsdl:documentation>
+			<wsdl:input message="tns:FetchWarningsAndErrorsRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchWarningsAndErrorsResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchGeneratedPDBURIs">
+			<wsdl:documentation>Fetches the URI for the PDB file that was used to perform the computation, containing only the alpha-carbons of standard amino-acids.
+
+Use this to verify that all expected residues were indeed used. Use the job id returned from StartComparativeDynamicsProfilesAnalysis or StartComparativeConformationalOverlapAnalysis as input.
+Returns a URI giving the file location.</wsdl:documentation>
+			<wsdl:input message="tns:FetchGeneratedPDBURIsRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchGeneratedPDBURIsResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchComparativeDeformationEnergiesURI">
+			<wsdl:documentation>Fetches the comparative deformation energy profiles.
+
+The job id returned by StartComparativeDynamicsProfilesAnalysis or StartComparativeConformationalOverlapAnalysis should be provided as input, together with the result type you want back, either raw file (default, DAT) or ready-made plot (PDF).
+
+The raw file contains normalized deformation energies for each alpha carbon in all the analyzed structures. Each row correspond to an alignment index and each column to a structure. Columns are labeled with one header row. Alignment gaps are annotated with nan.
+
+Returns a URI to the file location.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchComparativeDeformationEnergiesURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchComparativeDeformationEnergiesURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchConformationalOverlapURI">
+			<wsdl:documentation>Fetches results from the conformational overlap analysis.
+
+The job id returned by StartComparativeConformationalOverlapAnalysis should be provided as input together with the result type you want back, either raw file (default, DAT) or a ready-made plot (PDF). If you input a job id from StartComparativeDynamicsProfilesAnalysis you will get an error. 
+
+The raw file contains a symmetric matrix measuring the conformational overlap between all the compared structures. Both rows and columns are labeled. The conformational overlap is measured by the Root Mean Squared Inner Product of the 10 slowest modes of each structure.
+
+Returns a URI to the file location.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchConformationalOverlapURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchConformationalOverlapURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:ComparativeAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+
+
+
+	<wsdl:binding name="WebNMAComparativeAnalysis"
+		type="tns:WebNMAComparativeAnalysis">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="CheckStatus">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/CheckStatus" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchComparativeFluctuationProfilesURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchComparativeFluctuationProfilesURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchWarningsAndErrors">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchWarningsAndErrors" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchComparativeDeformationEnergiesURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchComparativeDeformationEnergiesURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchConformationalOverlapURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchConformationalOverlapURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchGeneratedPDBURIs">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchGeneratedPDBURIs" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation
+			name="StartComparativeDynamicsProfilesAnalysis">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/StartComparativeDynamicsProfilesAnalysis" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation
+			name="StartComparativeConformationalOverlapAnalysis">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/StartComparativeConformationalOverlapAnalysis" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+
+
+
+	<wsdl:service name="WebNMAComparativeAnalysis">
+		<wsdl:port name="WebNMAComparativeAnalysis" binding="tns:WebNMAComparativeAnalysis">
+			<soap:address location="http://cbu.bioinfo.no/ws/WebNMAComparativeAnalysis" />
+		</wsdl:port>
+	</wsdl:service>
+	
+</wsdl:definitions>

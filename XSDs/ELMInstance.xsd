@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by Jan Christian Bryne (University of Bergen) -->
+<xs:schema xmlns="http://elm.eu.org/ELMInstance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" xmlns:elm="http://elm.eu.org/ELM" targetNamespace="http://elm.eu.org/ELMInstance" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>ELM Instance schema type for the Eukaryotic Linear Motif resource.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://elm.eu.org/ELM" schemaLocation="http://api.bioinfo.no/schema/ELM.xsd"/>
+	<xs:element name="ELMInstance" type="ELMInstanceType"/>
+	<xs:complexType name="ELMInstanceType" sawsdl:modelReference="http://edamontology.org/data_2071 http://edamontology.org/data_2914"><!--"Sequence motif (protein)"(2071)--><!--"Sequence features metadata"(2914)--><!--Now about a particular feature occurence-->
+		<xs:annotation>
+			<xs:documentation>A known instance of an ELM.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ELM" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif accession (if stable ID). Is ELM identifier or ELM accession here?-->
+				<xs:annotation>
+					<xs:documentation>A reference to the ELM which this is an instance of.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SequenceReference" type="elm:DBReferenceType" sawsdl:modelReference="http://edamontology.org/data_1093"><!--"Sequence accession"(1093)-->
+				<xs:annotation>
+					<xs:documentation>A external database reference to the sequence where this instance occurs in.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Sequence" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_2974 http://edamontology.org/format_2607"><!--"Raw sequence (protein)"(2974)--><!--"completely unambiguous pure protein"(2607)--><!--See exactly which kinds in data-->
+				<xs:annotation>
+					<xs:documentation>The sequence where this instance occurs in.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Start" type="xs:integer" sawsdl:modelReference="http://edamontology.org/data_1014"><!--"Sequence position specification"(1014)--><!--Start/min-->
+				<xs:annotation>
+					<xs:documentation>The start position of this ELM Instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="End" type="xs:integer" sawsdl:modelReference="http://edamontology.org/data_1014"><!--"Sequence position specification"(1014)--><!--End/max-->
+				<xs:annotation>
+					<xs:documentation>The end position of this ELM instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InstanceLogic" type="xs:string" sawsdl:modelReference="http://edamontology.org/data_2042 http://edamontology.org/data_2337"><!--"Evidence"(2042)--><!--"Metadata"(2337)-->
+				<xs:annotation>
+					<xs:documentation>Indicates if the existence of this instance is supported by evidence.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Evidence" type="EvidenceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Evidence supporting or contradicting the existence of this ELM Instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Accession" type="xs:string" use="required" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif occurence ID (or accession if stable)-->
+			<xs:annotation>
+				<xs:documentation>ELM Instance primary key.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreationDate" type="xs:date" use="required" sawsdl:modelReference="http://purl.org/dc/terms/created http://edamontology.org/data_2156"><!--"Date"(2156)-->
+			<xs:annotation>
+				<xs:documentation>The date when this ELM Instance was initially submitted to the ELM database.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ChangeDate" type="xs:date" use="required" sawsdl:modelReference="http://purl.org/dc/terms/modified http://edamontology.org/data_2156"><!--"Date"(2156)-->
+			<xs:annotation>
+				<xs:documentation>The date when this ELM Instance was last edited.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="Evidence" type="EvidenceType"/>
+	<xs:complexType name="EvidenceType" sawsdl:modelReference="http://edamontology.org/data_2042 http://edamontology.org/data_2337"><!--"Evidence"(2042)--><!--"Metadata"(2337)-->
+		<xs:annotation>
+			<xs:documentation>The evidence that support this ELM instance.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Used to separate between experimental and predicted evidence.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Method" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The experimental or prediction method used to obtain this evidence.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LiteratureReference" type="elm:PubMedIDType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>PubMed ID to article where this ELM Instance is described.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URL" type="xs:string" minOccurs="0" maxOccurs="unbounded" sawsdl:modelReference="http://edamontology.org/data_1052"><!--"URL"(1052)-->
+				<xs:annotation>
+					<xs:documentation>Points to any information about this evidence that is not a PubMed article or a database reference.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DBRef" type="elm:DBReferenceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A reference to a item in a external database that relates to this evidence.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Logic" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Specifies if this evidence supports or contradicts the existence of this ELM Instance.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reliability" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The reliability of this evidence.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

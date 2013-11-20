@@ -1,0 +1,612 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <meta charset="UTF-8">
+            <title>WSDL Workshop</title>
+	<link rel="stylesheet" href= "style.css">
+        
+        <script>
+  
+
+            //This function scale everything based on the ratio of the screen
+            onresize = onload = function(){
+
+                                    //Find the ratio
+                                    var ratio =(window.innerWidth * 0.79) / (window.innerHeight * 0.95);
+                                    
+                                    var widthCorrection = 0;
+                                    var heightCorrection = 0;
+                                    
+                                    //Correct the page size
+                                    if(ratio>=1){
+                                        widthCorrection = 1000*(ratio-1);
+                                        document.body.style.fontSize=window.innerWidth+"px";
+                                    }
+                                    else{
+                                        heightCorrection = 1000*((1/ratio)-1);
+                                        document.body.style.fontSize=window.innerHeight+"px";
+                                    }
+                                    
+                                    //Correct the canvas size
+                                    var canvas = document.getElementsByTagName('canvas')[0];
+                                    canvas.width  = 1000 + widthCorrection;
+                                    canvas.height = 1000 + heightCorrection;
+                                    
+                                    //Scale the checkboxes and radioboxes
+                                    //--Finding proportions
+                                    var checkboxCorrection = 0;
+                                    /*console.log("scaling checkboxes");*/
+                                    if(ratio>=1){
+                                        checkboxCorrection = window.innerHeight/50;
+                                    }
+                                    else{
+                                        checkboxCorrection = window.innerWidth/80;
+                                    }
+                                    
+                                    /*console.log(window.innerWidth);
+                                    console.log(window.innerHeight);
+                                    console.log(checkboxCorrection);*/
+                                    
+                                    //--Correct the checkboxes
+                                    var checkboxes = document.getElementsByClassName('checkbox');
+
+                                    for (var i=0; i<checkboxes.length; i++) {
+                                        
+                                         checkboxes[i].style.width = checkboxCorrection+"px";
+                                         checkboxes[i].style.height = checkboxCorrection+"px";
+                                         
+                                    }
+                                
+                                    //--Correct the radioboxes
+                                    var radioboxes = document.getElementsByClassName('radiobox');
+                                    for (var i=0; i<radioboxes.length; i++) {
+                                        
+                                         radioboxes[i].style.width = checkboxCorrection+"px";
+                                         radioboxes[i].style.height = checkboxCorrection+"px";
+                                         
+                                    }
+                                
+                                
+                                    //Scale the input box for searchs
+                                    //Scale also the frame that sorrounds it
+                                    //(There is no mathematic rule here, just trial and error of what does look nice)
+                                    var inputbox = document.getElementById('inputWSDL');
+                                    /*var frame = document.getElementById('inputer');*/
+                                    
+                                    if(ratio>=1){
+                                        inputbox.style.fontSize=window.innerHeight*0.02+"px";
+                                        inputbox.style.height=window.innerHeight*0.04+"px";
+                                        inputbox.style.width=window.innerWidth*0.14+"px";
+                                        /*frame.style.height=window.innerHeight*0.05+"px";
+                                        frame.style.width=window.innerWidth*0.10+"px";  */
+                                    }
+                                    else{
+                                        inputbox.style.fontSize=checkboxCorrection*0.66+"px";
+                                        inputbox.style.height=checkboxCorrection*2+"px";
+                                        inputbox.style.width=ratio*130+"px";
+                                        /*frame.style.height=checkboxCorrection*2+"px";
+                                        frame.style.width=ratio*70+"px";  */
+                                    }
+                                
+                                    
+                                };
+        </script>
+        
+    </head>
+    <body>
+        
+        <div id="wrapper">
+            
+            <div id="content">
+                
+                
+                <div id="display">
+                    
+                    <div id="paper">
+                        
+                        <canvas id="canvas_paper" width="1000" height="1000">
+                            If you can read this text your browser doesn't support HTML5.
+                        </canvas>
+                        
+                    </div>
+                    
+                    
+                    <div id="iconContainer">
+
+                        <div id="newCanvas" class="icon">
+                            <img src="Res/img/icons/document-new-8.png" title="New (Crtl+N)" height="100%"/>
+                        </div>
+                        
+                        <div id="openCanvas" class="icon">
+                            <img src="Res/img/icons/document-open-5.png" title="Open (Crtl+O)" height="100%"/>
+                        </div>
+                        
+                        <div id="saveCanvas" class="icon" onclick="save();">
+                            <img src="Res/img/icons/document-save-5.png" title="Save (Crtl+S)" height="100%"/>
+                        </div>
+                        
+                        <div id="separator" class="icon">
+                            <img src="Res/img/icons/list-remove-2.png" height="30%"/>
+                        </div>
+                        
+                        <div id="cutPiece" class="icon">
+                            <img src="Res/img/icons/edit-cut-5.png" title="Cut (Crtl+X)" height="100%"/>
+                        </div>
+                        
+                        <div id="copyPiece" class="icon">
+                            <img src="Res/img/icons/edit-copy-6.png" title="Copy (Crtl+C)" height="100%"/>
+                        </div>
+                        
+                        <div id="pastePiece" class="icon">
+                            <img src="Res/img/icons/edit-paste-4.png" title="Paste (Crtl+V)" height="100%"/>
+                        </div>
+                        
+                        <div id="separator" class="icon">
+                            <img src="Res/img/icons/list-remove-2.png" height="30%"/>
+                        </div>
+
+                        <div id="zoomIn" class="icon" onclick="zoomPlus();">
+                            <img src="Res/img/icons/zoom-in-3.png" title="Zoom in (+)" height="100%"/>
+                        </div>                        
+
+                        <div id="zoomOne" class="icon" onclick="zoomOne();">
+                            <img src="Res/img/icons/zoom-original-2.png" title="Zoom 1:1 (*)" height="100%"/>
+                        </div>                        
+
+                        <div id="zoomOut" class="icon" onclick="zoomMinus();">
+                            <img src="Res/img/icons/zoom-out-3.png" title="Zoom out (-)" height="100%"/>
+                        </div>                        
+                        
+                        <div id="separator" class="icon">
+                            <img src="Res/img/icons/list-remove-2.png" height="30%"/>
+                        </div>                       
+                        
+                        <div id="deleteOne" class="icon" onclick="deleteSelection();">
+                            <img src="Res/img/icons/edit-delete-5.png" title="Delete Piece (Del)" height="100%"/>
+                        </div>                         
+
+                        <div id="deleteAll" class="icon" onclick="deleteAll();">
+                            <img src="Res/img/icons/edit-clear-3.png" title="Delete All" height="100%"/>
+                        </div>                                                 
+                        
+                        <div id="screenshot" class="icon" onclick="saveImage();">
+                            <img src="Res/img/icons/insert-image-2.png" title="Save as PNG" height="100%"/>
+                        </div>                        
+
+                        <div id="help" class="icon" onclick="help();">
+                            <img src="Res/img/icons/system-help-3.png" title="Help!" height="100%"/>
+                        </div>
+                        
+                        <div id="separator" class="icon">
+                            <img src="Res/img/icons/list-remove-2.png" height="30%"/>
+                        </div>
+                        
+                        <div id="alignHorizontalLeft" class="icon" onclick="alignHorizontalLeft();">
+                            <img src="Res/img/icons/align-horizontal-left.png" title="Align Horizontal Left" height="100%"/>
+                        </div>
+
+                        <div id="alignHorizontalCenter" class="icon" onclick="alignHorizontalCenter();">
+                            <img src="Res/img/icons/align-horizontal-center-2.png" title="Align Horizontal Center" height="100%"/>
+                        </div>                        
+                        
+                        <div id="alignHorizontalRight" class="icon" onclick="alignHorizontalRight();">
+                            <img src="Res/img/icons/align-horizontal-right-2.png" title="Align Horizontal Right" height="100%"/>
+                        </div>                        
+                        
+                        <div id="alignVerticalTop" class="icon" onclick="alignVerticalTop();">
+                            <img src="Res/img/icons/align-vertical-top-2.png" title="Align Vertical Top" height="100%"/>
+                        </div>                        
+                        
+                        <div id="alignVerticalCenter" class="icon" onclick="alignVerticalCenter();">
+                            <img src="Res/img/icons/align-vertical-center-2.png" title="Align Vertical Center" height="100%"/>
+                        </div>                        
+                        
+                        <div id="alignVerticalBottom" class="icon" onclick="alignVerticalBottom();">
+                            <img src="Res/img/icons/align-vertical-bottom-2.png" title="Align Vertical Bottom" height="100%"/>
+                        </div>                        
+                        
+                        <div id="rest">
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    
+                </div>
+                
+                <div id="right">
+         
+                    <div id="menu">
+                        
+                        <div id="auxiliar_top">
+        
+                            
+                            <div id="title_top">
+                                
+                                <div id="title_tex">
+                                    WSDLs filters:    
+                                </div>
+                            
+                               <div id="view_selector" class="icon" onclick="swapFilter();">        
+                                    <img src="Res/img/icons/view-sidetree-3.png" title="Tree filter view" height="4.7%"/>
+                               </div>
+                                
+                                
+                                
+                            </div>
+                            
+                            
+                            <div id="wsdl_filter">
+                                
+                                <div id="inputer">
+                                    <form>
+                                        <input id="inputWSDL" class="text_input" type="search" autocomplete="on" name="wsdl_name" value="Write here to search" onfocus="showSearchResults();" onblur="hideSearchResults();" onkeyup="filterList();"><br>
+                                    </form> 
+                                </div>
+                                
+                                
+                               <div id="sorter">        
+                                    <img src="Res/img/icons/view-sort-ascending-2.png" title="Sort by name" height="4.7%"/>
+                               </div>
+                                
+                                
+                               <div id="uploader">        
+                                    <img src="Res/img/icons/folder-new-3.png" title="Add new WSDL from file" height="4.7%"/>
+                               </div>
+                                
+                               <div id="filter_lister">
+                                    
+                                    <div id="operation_lister_paper">
+                                        
+                                        <!--
+                                        <div id="operationText" class="backgroundText"> OPERATIONS </div>
+                                        <div id="searchListItemInput0" class="searchItem"> Name0 </div>
+                                        <div id="searchListItemInput1" class="searchItem"> Name Large 1 </div>
+                                        <div id="searchListItemInput2" class="searchItem"> Name Extra Large 2 </div>
+                                        <div id="searchListItemInput3" class="searchItem"> Name Super 3 </div>
+                                        <div id="searchListItemInput4" class="searchItem"> Name Normal 4 </div>
+                                        -->
+                                    </div>
+                                    
+                                    <div id="input_lister_paper">
+
+                                        <!--
+                                        <div id="inputText" class="backgroundText"> INPUTS </div>
+                                        
+                                        
+                                        <div id="searchListItemInput5" class="searchItem"> Name0 </div>
+                                        <div id="searchListItemInput6" class="searchItem"> Name Large 1 </div>
+                                        <div id="searchListItemInput7" class="searchItem"> Name Extra Large 2 </div>
+                                        <div id="searchListItemInput8" class="searchItem"> Name Super 3 </div>
+                                        <div id="searchListItemInput9" class="searchItem"> Name Normal 4 </div>
+                                        -->
+                                        
+                                    </div>
+                                    
+                                    <div id="output_lister_paper">
+                                        <!--
+                                        <div id="outputText" class="backgroundText"> OUTPUTS </div>
+                                        <div id="searchListItemInput10" class="searchItem"> Name0 </div>
+                                        <div id="searchListItemInput11" class="searchItem"> Name Large 1 </div>
+                                        <div id="searchListItemInput12" class="searchItem"> Name Extra Large 2 </div>
+                                        <div id="searchListItemInput13" class="searchItem"> Name Super 3 </div>
+                                        <div id="searchListItemInput14" class="searchItem"> Name Normal 4 </div>
+                                        -->
+                                        
+                                    </div>
+                                    
+                                    <div id="semantic_lister_paper">
+                                        <!--
+                                        <div id="semanticText" class="backgroundText"> SEMANTICS </div>
+                                        <div id="searchListItemInput20" class="searchItem"> Name0 </div>
+                                        <div id="searchListItemInput21" class="searchItem"> Name Large 1 </div>
+                                        <div id="searchListItemInput22" class="searchItem"> Name Extra Large 2 </div>
+                                        <div id="searchListItemInput23" class="searchItem"> Name Super 3 </div>
+                                        <div id="searchListItemInput24" class="searchItem"> Name Normal 4 </div>
+                                        -->
+                                        
+                                    </div>
+
+                                </div>
+                                
+                                
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        <div id="selector">
+                            
+                            <!--
+                            
+                            <div id="op_4" class="semantic_operation">
+                                
+                                <div id="op_4_top" class="semantic_header">
+                                    
+                                    <div id="op_4_title" class="semantic_title">
+                                        Operation
+                                    </div>
+                                    <div id="op_4_expand" class="semantic_bottom">
+                                        +
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div id="op_4_container" class="semantic_container">
+                                    
+                                    <div id="op_4_box" class="semantic_box">
+                                        
+
+                                        <div id="op_5" class="semantic_operation">
+
+                                            <div id="op_5_top" class="semantic_header">
+
+                                                <div id="op_5_title" class="semantic_title">
+                                                    Evaluation and validation
+                                                </div>
+                                                <div id="op_5_expand" class="semantic_bottom">
+                                                    +
+                                                </div>
+
+                                            </div>
+
+                                            <div id="op_5_container" class="semantic_container">
+                                                
+
+                                                <div id="op_5_box" class="semantic_box">
+                                                    
+                                                    <div id="item1_port0_operation0_body" class="operation_body_TREE">
+                                                        
+                                                        <div id="item1_port0_operation0_menu" class="operation_menu_TREE">
+                                                            <div id="item1_port0_operation0_add" class="operation_add_TREE" onclick="addPiece(this);">
+                                                                ►
+                                                            </div>
+                                                            
+                                                            <div id="item1_port0_operation0_title" class="operation_title_TREE">
+                                                                getMatrixByName
+                                                            </div>
+                                                            
+                                                            <div id="item1_port0_operation0_expand" class="operation_expand_TREE" onclick="expandOperation(this);">
+                                                                + 
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div id="item1_port0_operation0_container" class="operation_container_TREE">
+                                                            
+                                                        </div>
+                                                        
+                                                        
+                                                    </div>
+                                                    
+                                                  
+                                                    
+                                                    <div id="item1_port0_operation1_body" class="operation_body_TREE">
+                                                        <div id="item1_port0_operation1_menu" class="operation_menu_TREE">
+                                                            <div id="item1_port0_operation1_add" class="operation_add_TREE" onclick="addPiece(this);">
+                                                                ► 
+                                                            </div>
+                                                            <div id="item1_port0_operation1_title" class="operation_title_TREE">
+                                                                getMatrixById
+                                                            </div>
+                                                            <div id="item1_port0_operation1_expand" class="operation_expand_ON_TREE" onclick="collapseOperation(this);">
+                                                                -
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div id="item1_port0_operation1_container" class="operation_container_TREE">
+                                                            <div id="item1_port0_input_operation1" class="input_operation_TREE">
+                                                                <div id="item1_port0_operation1_input_box" class="input_box_TREE">
+                                                                    <div id="item1_port0_operation1_input_title" class="input_title_TREE">
+                                                                        Inputs
+                                                                    </div>
+                                                                    <div id="item1_port0_operation1_input_container" class="input_container_TREE">
+                                                                        <div id="item1_port0_operation1_input_element0" class="element">
+                                                                            <div id="item1_port0_operation1_input_element0_name" class="element_name">
+                                                                                Id
+                                                                            </div>
+                                                                            <div id="item1_port0_operation1_input_element0_type" class="element_type">
+                                                                                xs:string
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        <div id="item1_port0_operation1_input_element1" class="element">
+                                                                            <div id="item1_port0_operation1_input_element1_name" class="element_name">
+                                                                                Format
+                                                                            </div>
+                                                                            <div id="item1_port0_operation1_input_element1_type" class="element_type">
+                                                                                xs:string
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        <div id="item1_port0_operation1_input_element2" class="element">
+                                                                            <div id="item1_port0_operation1_input_element2_name" class="element_name">
+                                                                                Database
+                                                                            </div>
+                                                                            <div id="item1_port0_operation1_input_element2_type" class="element_type">
+                                                                                xs:string
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div id="item1_port0_output_operation1" class="output_operation_TREE">
+                                                                <div id="item1_port0_operation1_output_box" class="output_box_TREE">
+                                                                    <div id="item1_port0_operation1_output_title" class="output_title_TREE">
+                                                                        Outputs 
+                                                                    </div>
+                                                                    <div id="item1_port0_operation1_output_container" class="output_container_TREE">
+                                                                        <div id="item1_port0_operation1_output_element0" class="element">
+                                                                            <div id="item1_port0_operation1_output_element0_name" class="element_name">
+                                                                                Matrix
+                                                                            </div>
+                                                                            <div id="item1_port0_operation1_output_element0_type" class="element_type">
+                                                                                complex
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                        <div id="op_6" class="semantic_operation">
+
+                                            <div id="op_6_top" class="semantic_header">
+
+                                                <div id="op_6_title" class="semantic_title">
+                                                    Analysis and Processing
+                                                </div>
+                                                <div id="op_6_expand" class="semantic_bottom">
+                                                    +
+                                                </div>
+
+                                            </div>
+
+                                            <div id="op_6_container" class="semantic_container">
+                                                
+                                                <div id="op_6_box" class="semantic_box">
+                                                    
+                                                </div>
+                                                
+                                            </div>
+
+
+                                        </div>
+
+                                        
+                                        
+                                    </div>
+                                    
+                                    
+
+                                    
+                                </div>
+                                    
+                                
+                            </div>
+
+                            -->
+                            
+                        </div>
+                        
+                        
+                        <div id="auxiliar_buttom">
+                            
+                         
+                            <div id="type_filter" class="filter_menu"> 
+                                
+                                <div id="type_title">
+                                    Filter options
+                                </div>
+                                
+                                <div id="type_options">
+                                    
+                                    <form>
+
+                                        <input id="filter_option_operation" type="checkbox" name="filter_option_operation" value="operation" class="checkbox" onclick="updateFilterStates();"> Operation <br>
+                                        <input id="filter_option_input" type="checkbox" name="filter_option_input" value="Input" class="checkbox" onclick="updateFilterStates();"> Input <br>
+                                        <input id="filter_option_output" type="checkbox" name="filter_option_output" value="Output" class="checkbox" onclick="updateFilterStates();"> Output <br>
+                                        <input id="filter_option_ontology" type="checkbox" name="filter_option_ontology" value="Ontology" class="checkbox" onclick="updateFilterStates();"> Ontology <br>
+
+                                    </form>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                            <div id="input_filter" class="filter_menu"> 
+                                
+                                <div>
+                                    Input compatible
+                                </div>
+                                
+                                <div id="input_options">
+                                
+                                    <form>
+                                        <input id="input_compatible_total" type="checkbox" name="input_compatible_total" value="total" class="checkbox" onclick="updateFilterStates();"> Total <br>
+                                        <input id="input_compatible_possible" type="checkbox" name="input_compatible_possible" value="possible" class="checkbox" onclick="updateFilterStates();"> Possible <br>
+                                        <input id="input_compatible_neutral" type="checkbox" name="input_compatible_neutral" value="neutral" class="checkbox" onclick="updateFilterStates();"> Neutral <br>
+                                        <input id="input_compatible_none" type="checkbox" name="input_compatible_none" value="none" class="checkbox" onclick="updateFilterStates();"> None<br>
+                                    </form>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                            <div id="semantic_filter" class="filter_menu"> 
+                                
+                                <div>
+                                    Semantic compatible
+                                </div>
+
+                                <div id="semantic_options">
+                                    
+                                    <form>
+
+                                        <input id="semantic_option_total" type="checkbox" name="semantic_option_total" value="total" class="checkbox" onclick="updateFilterStates();"> Total <br>
+                                        <input id="semantic_option_possible" type="checkbox" name="semantic_option_possible" value="yes" class="checkbox" onclick="updateFilterStates();"> Possible <br>
+                                        <input id="semantic_option_neutral" type="checkbox" name="semantic_option_neutral" value="maybe" class="checkbox" onclick="updateFilterStates();"> Neutral <br>
+                                        <input id="semantic_option_none" type="checkbox" name="semantic_option_none" value="none" class="checkbox" onclick="updateFilterStates();"> None <br>
+
+                                    </form>
+                                    
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                   <div id="logo">
+                        
+                         <a href="http://uni.no/">
+                                <img src="Res/img/computing.png" title="I'm trap in the server room, please send help!" width="83%"/>    
+                         </a>
+                        
+                    </div>
+                    
+                </div>
+            
+            </div>
+            
+
+            
+        </div>            
+        
+        
+
+        
+        
+        <script src="WSDLWorkshop.js" type="text/javascript"> </script>
+        
+    </body>
+</html>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl" ?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.bccs.uni.no/cbu/service/bioxsd/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" name="bioxsd" targetNamespace="http://www.bccs.uni.no/cbu/service/bioxsd/">
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bccs.uni.no/cbu/service/bioxsd/" xmlns:Q1="http://bioxsd.org/BioXSD-1.0">
+			<xsd:import schemaLocation="../xsd/BioXSD-1.0.xsd" namespace="http://bioxsd.org/BioXSD-1.0"/>
+			<xsd:simpleType name="SequenceType" sawsdl:modelReference="http://edamontology.org/data_1094">
+				<!--"Sequence type"(1094)-->
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="AMINOACID"/>
+					<xsd:enumeration value="NUCLEOTIDE"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:element name="seq2xsd">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sequence" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_0848 http://edamontology.org/format_2094 http://edamontology.org/format_1957"/>
+						<!--"Raw sequence"(0848)-->
+						<!--"pure"(2094)-->
+						<!--"raw"(1957)-->
+						<xsd:element name="sequence_type" type="tns:SequenceType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="seq2xsdResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="xsdseq" type="Q1:BiosequenceRecord"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="xsd2seq">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="xsdsequence" type="Q1:BiosequenceRecord"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="xsd2seqResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sequence" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_0848 http://edamontology.org/format_2094 http://edamontology.org/format_1957"/>
+						<!--"Raw sequence"(0848)-->
+						<!--"pure"(2094)-->
+						<!--"raw"(1957)-->
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="fasta2xsd">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="fasta" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_2043 http://edamontology.org/format_2200"/>
+						<!--"Sequence record lite"(2043)-->
+						<xsd:element name="sequence_type" type="tns:SequenceType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="fasta2xsdResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="xsdfasta" type="Q1:BiosequenceRecord" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="xsd2fasta">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="xsdfasta" type="Q1:BiosequenceRecord" minOccurs="0" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="xsd2fastaResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="fasta" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_2043 http://edamontology.org/format_2200"/>
+						<!--"Sequence record lite"(2043)-->
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="seq2xsdRequest">
+		<wsdl:part name="parameters" element="tns:seq2xsd"/>
+	</wsdl:message>
+	<wsdl:message name="seq2xsdResponse">
+		<wsdl:part name="parameters" element="tns:seq2xsdResponse"/>
+	</wsdl:message>
+	<wsdl:message name="xsd2seqRequest">
+		<wsdl:part name="parameters" element="tns:xsd2seq"/>
+	</wsdl:message>
+	<wsdl:message name="xsd2seqResponse">
+		<wsdl:part name="parameters" element="tns:xsd2seqResponse"/>
+	</wsdl:message>
+	<wsdl:message name="fasta2xsdRequest">
+		<wsdl:part name="parameters" element="tns:fasta2xsd"/>
+	</wsdl:message>
+	<wsdl:message name="fasta2xsdResponse">
+		<wsdl:part name="parameters" element="tns:fasta2xsdResponse"/>
+	</wsdl:message>
+	<wsdl:message name="xsd2fastaRequest">
+		<wsdl:part name="parameters" element="tns:xsd2fasta"/>
+	</wsdl:message>
+	<wsdl:message name="xsd2fastaResponse">
+		<wsdl:part name="parameters" element="tns:xsd2fastaResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="Bioxsd">
+		<wsdl:operation name="seq2xsd">
+			<wsdl:input message="tns:seq2xsdRequest"/>
+			<wsdl:output message="tns:seq2xsdResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="xsd2seq">
+			<wsdl:input message="tns:xsd2seqRequest"/>
+			<wsdl:output message="tns:xsd2seqResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="fasta2xsd">
+			<wsdl:input message="tns:fasta2xsdRequest"/>
+			<wsdl:output message="tns:fasta2xsdResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="xsd2fasta">
+			<wsdl:input message="tns:xsd2fastaRequest"/>
+			<wsdl:output message="tns:xsd2fastaResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="bioxsd" type="tns:Bioxsd">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http">
+    	</soap:binding>
+		<wsdl:operation name="seq2xsd">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/bioxsd/seq2xsd">
+    		</soap:operation>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="xsd2seq">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/bioxsd/xsd2seq">
+    		</soap:operation>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="fasta2xsd">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/bioxsd/fasta2xsd">
+    		</soap:operation>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="xsd2fasta">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/bioxsd/xsd2fasta">
+    		</soap:operation>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="bioxsd">
+		<wsdl:port name="bioxsdSOAP" binding="tns:bioxsd">
+			<soap:address location="http://cbu.bioinfo.no/ws/bioxsd"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

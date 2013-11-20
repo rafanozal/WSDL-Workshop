@@ -1,0 +1,639 @@
+format-version: 1.2
+data-version: beta0.1
+date: 30:06:2011 11:55 ! CE(S)T
+saved-by: Matus Kalas
+subsetdef: Operation "WSIO Operation sub-ontology" ! The top-level-rooted WSIO 'Operation' sub-ontology includes operations that are relevant with respect to interaction scenarios with Web services, including session handling (for example 'explicit polling' within asynchronous invocation). Some concepts of WSIO 'Operation' sub-ontology are applicable also outside of the context of Web-service interaction.
+subsetdef: Data "WSIO Data sub-ontology" ! The top-level-rooted WSIO 'Data' sub-ontology includes types of data that are relevant with respect to interaction scenarios with Web services, including session handling (for example 'explicit polling' within asynchronous invocation).\nConcepts of WSIO 'Data' sub-ontology are applicable also outside of the context of Web-service interaction.
+subsetdef: Transfer "WSIO Transfer sub-ontology" ! The top-level-rooted WSIO 'Transfer' sub-ontology includes forms of transfer and transfer protocols that are relevant with respect to transferring input and output data to and from Web services. Some concepts of WSIO 'Transfer' sub-ontology are applicable also outside of the context of Web-service interaction.
+subsetdef: Encoding "WSIO Encoding sub-ontology" ! obsolete
+subsetdef: Compression "WSIO Compression sub-ontology" ! The top-level-rooted WSIO 'Compression' sub-ontology includes forms of compression and binary-to-text encoding, and their combinations, that are relevant with respect to input and output data of Web services. Concepts of WSIO 'Compression' sub-ontology are applicable also outside of the context of Web-service interaction.
+subsetdef: Relation "WSIO relation types" ! Types of relations defined between concepts of WSIO, or available to be used for annotations of external entities' relations to concepts or external entities. All relation types are applicable also outside of the context of Web-service interaction.
+subsetdef: Metadata "WSIO metadata tags and modifiers" ! Additional tags of metadata of WSIO concepts, or their trailing modifiers or qualifiers. Applicable also outside of the context of Web-service interaction.
+subsetdef: SupportedByEsysbio "Supported by eSysbio" ! Functionality denoted by these concepts is supported by the eSysbio system (http://esysbio.org) within the automated Web-service invocation and input/output data handling.
+default-namespace: WSIO
+synonymtypedef: AE "American-English spelling" EXACT
+idspace: WSIO_operation http://wsio.org/operation/ "WSIO Operation concepts"
+idspace: WSIO_data http://wsio.org/data/ "WSIO Data concepts"
+idspace: WSIO_transfer http://wsio.org/transfer/ "WSIO Transfer concepts"
+idspace: WSIO_compression http://wsio.org/compression/ "WSIO Compression concepts"
+idspace: WSIO_relation http://wsio.org/relation/ "WSIO relation types"
+idspace: WSIO_metadata http://wsio.org/metadata/ "WSIO metadata tags and modifiers"
+default-relationship-id-prefix: WSIO_metadata
+!id-mapping: WSIO_operation:operation EDAM:0000004
+!id-mapping: WSIO_data:data EDAM:0000006
+!id-mapping: WSIO_data:5 EDAM:0000842
+!id-mapping: WSIO_relation:has_input EDAM:has_input
+!id-mapping: WSIO_relation:has_output EDAM:has_output
+next-id: 27
+remark: Web Service Interaction Ontology (WSIO) enables automated interaction with more complex Web services that are typical for example within life sciences. WSIO is however independent of the application domain and relevant for any SOAP Web services. If the interaction scenario with a Web service is nontrivial (and incorporates session handling), annotation with WSIO concepts will enable automatic generation of client programs, scripts, or interactive applications with a graphical user interface. WSIO also enables automation of different ways of data transfer and data un-/compression or en-/decoding. We strongly discourage providers from developing complex interaction and data-transfer/compression scenarios, however when needed, WSIO will enable smooth automated interaction with them. Future versions will support more interaction scenarios. WSIO aims to serve also as a means to standardise the complex interaction scenarios within SOAP Web services.
+
+! Authors: Matus Kalas and Prabakar Venkataraman, (c) 2011, Uni Computing, and Department of Informatics, University of Bergen, Norway.
+! Funding: Developed within the eSysbio project (grant 178885/V30 from the Research Council of Norway within the eVITA programme) .
+! Licence: Available under the Creative Commons BY-ND 3.0 licence with allowed attributed reference to, and import of, unmodified ontological categories (concepts ,"terms", "classes", including types of relations). Contributions to new versions are welcome under the supervision of the first author and the second author of WSIO.
+
+
+
+
+! WSIO metadata tags and modifiers
+
+[Typedef]
+id:  WSIO_metadata:uri
+name: URI
+subset: Metadata
+uri: http://wsio.org/metadata/uri
+def: "'uri:' metadata tag defines the canonical global URI of a concept."  [WSIO, http://wsio.org]
+synonym: "Global Unified Resource Identifier (URI)" EXACT [WSIO, http://wsio.org] ! "dbxref list" is optional according to http://www.geneontology.org/GO.format.obo-1_2.shtml, but OBO-Edit2 expects it ('Load Error').
+synonym: "Global unique identifier" BROAD [WSIO, http://wsio.org]
+is_metadata_tag: true
+
+[Typedef]
+id:  WSIO_metadata:spec
+name: Specification
+subset: Metadata
+uri: http://wsio.org/metadata/spec
+def: "'spec' trailing modifier (qualifier) of 'xref' links. When 'true', the link is pointing to a specification of the concept."  [WSIO, http://wsio.org]
+comment: Does not handle different versions of the specification or of the concept itself.\nWithin WSIO, 'Specification' applies to concrete forms of data transfer ('Transfer') and data compression/encoding ('Compression').
+is_metadata_tag: true ! a trailing modifier (qualifier)
+
+
+
+
+! Root-level concepts in WSIO (sub-ontologies)
+
+[Term]
+id: WSIO_operation:operation
+alt_id: WSIO_operation:1
+name: Operation
+subset: Operation
+uri: http://wsio.org/operation
+def: "Operation is a function that processes a set of inputs and results in a set of outputs, or associates input arguments with output values." [WSIO, http://wsio.org]
+comment: Singular case is a constant operation (constant function) that consumes no input (has no input arguments).\n\nA top-level concept in WSIO rooting the 'Operation' sub-ontology.\nWSIO 'Operation' sub-ontology includes operations that are relevant with respect to interaction scenarios with Web services, including session handling (for example 'explicit polling' within asynchronous invocation).\nSome concepts of WSIO 'Operation' sub-ontology are applicable also outside of the context of Web-service interaction.
+xref: EDAM:0000004
+synonym: "Computational operation" NARROW [WSIO, http://wsio.org]
+synonym: "Computational procedure" NARROW [WSIO, http://wsio.org]
+synonym: "Computational method" NARROW [WSIO, http://wsio.org]
+synonym: "Computational subroutine" NARROW [WSIO, http://wsio.org]
+synonym: "Function (programming)" NARROW [WSIO, http://wsio.org]
+synonym: "Lambda abstraction" NARROW [WSIO, http://wsio.org]
+synonym: "Mathematical operation" NARROW [WSIO, http://wsio.org]
+synonym: "Mathematical function" NARROW [WSIO, http://wsio.org]
+synonym: "Function" BROAD [WSIO, http://wsio.org] ! Operation is a function that has input(s) and output(s).
+synonym: "Process" RELATED [WSIO, http://wsio.org] ! Process can have a function (as its quality/attribute), and can also have (perform) an 'Operation' with inputs and outputs.
+synonym: "Subroutine" NARROW [http://en.wikipedia.org/wiki/Subroutine, http://en.wikipedia.org/wiki/Function_(computer_science)]
+synonym: "Function (mathematics)" NARROW [http://en.wikipedia.org/wiki/Function_(mathematics)]
+synonym: "continuant" BROAD [snap:Continuant]
+synonym: "function" RELATED [snap:Function] ! BFO 'function' is narrower in the sense that it is a 'realizable_entity' (snap:RealizableEntity) and a 'dependent_continuant' (snap:DependentContinuant), and broader in the sense that it does not need to have input(s) and output(s).
+synonym: "quality" RELATED [snap:Quality] ! Function, including an operation, can have a role of a quality/attribute in semantic annotation.
+synonym: "process" RELATED [span:Process] ! Process can have a function (as its quality/attribute), and can also have (perform) an 'Operation' with inputs and outputs.
+
+[Term]
+id: WSIO_data:data
+alt_id: WSIO_data:2
+name: Data
+subset: Data
+uri: http://wsio.org/data
+def: "Data is an information artefact that is 'understandable' by dedicated computational tools that can use the data as their input or output." [WSIO, http://wsio.org]
+comment: A top-level concept in WSIO rooting the 'Data' sub-ontology.\nWSIO 'Data' sub-ontology includes types of data that are relevant with respect to interaction scenarios with Web services, including session handling (for example 'explicit polling' within asynchronous invocation).\nConcepts of WSIO 'Data' sub-ontology are applicable also outside of the context of Web-service interaction.
+xref: EDAM:0000006
+synonym: "continuant" BROAD [snap:Continuant]
+synonym: "data item" RELATED [http://purl.obolibrary.org/obo/IAO_0000027] ! IAO 'data item' is a closely related ontological category (concept) broader in the sense or being any type of data in any role, and narrower in the sense of being limited to a 'generically_dependent_continuant' (snap:GenericallyDependentContinuant), standing in relation of aboutness to some entity (http://purl.obolibrary.org/obo/IAO_0000030), and data that is intended to be a truthful statement about something.
+synonym: "information content entity" RELATED [http://purl.obolibrary.org/obo/IAO_0000030] ! IAO 'information content entity' is a closely related ontological category (concept) broader in the sense of covering any type of data in any role, and narrower in the sense of being limited to a 'generically_dependent_continuant' (snap:GenericallyDependentContinuant) and standing in relation of aboutness to some entity.
+
+[Term]
+id: WSIO_transfer:transfer
+alt_id: WSIO_transfer:3
+name: Transfer !!(Transfer protocol? method? form of?)
+subset: Transfer
+uri: http://wsio.org/transfer
+def: "Transfer (type of data transfer, data transfer protocol) is the way data is transfered between 2 locations or processes." [WSIO, http://wsio.org]
+comment: Types of transfer are not bound to any particular layer of the OSI Model (http://en.wikipedia.org/wiki/OSI_model).\n\nA top-level concept in WSIO rooting the 'Transfer' sub-ontology.\nWSIO 'Transfer' sub-ontology includes forms of transfer and transfer protocols that are relevant with respect to transferring input and output data to and from Web services.\nSome concepts of WSIO 'Transfer' sub-ontology are applicable also outside of the context of Web-service interaction.
+synonym: "Data transfer" EXACT [WSIO, http://wsio.org]
+synonym: "Data transfer protocol" EXACT [WSIO, http://wsio.org]
+synonym: "Data channel" EXACT [WSIO, http://wsio.org]
+synonym: "Form of data transfer" EXACT [WSIO, http://wsio.org]
+synonym: "Type of data transfer" EXACT [WSIO, http://wsio.org]
+synonym: "Function" RELATED [WSIO, http://wsio.org] ! Form of data transfer is related to a function of transferring data.
+synonym: "Process" RELATED [WSIO, http://wsio.org] ! Form of data transfer is related to a process of transferring data.
+synonym: "continuant" BROAD [snap:Continuant]
+synonym: "quality" RELATED [snap:Quality] ! BFO 'quality' is narrower in the sense that it is a 'dependent_continuant' (snap:DependentContinuant), and broader in the sense that it is any quality not just the form of data transfer.
+synonym: "function" RELATED [snap:Function] ! Form of data transfer is related to a function of transferring data.
+synonym: "process" RELATED [span:Process] ! Form of data transfer is related to a process of transferring data.
+
+[Term]
+id: WSIO_compression:compression
+alt_id: WSIO_compression:4
+name: Compression and encoding
+subset: Compression
+uri: http://wsio.org/compression
+def: "Compression (form of data compression), a form of encoding of binary data, or a sequence of compression and encoding methods, are the ways data is compressed and/or eventually encoded to decrease its volume (and eventually be exchanged in text format). They imply the way compressed/encoded data should be decompressed/decoded to be readable in its original form again." [WSIO, http://wsio.org]
+comment: A top-level concept in WSIO rooting the 'Compression' sub-ontology.\nWSIO 'Compression' sub-ontology includes forms of compression and binary-to-text encoding, and their combinations, that are relevant with respect to input and output data of Web services.\nConcepts of WSIO 'Compression' sub-ontology are applicable also outside of the context of Web-service interaction.
+synonym: "Data compression and encoding" EXACT [WSIO, http://wsio.org]
+synonym: "Form of data compression and/or encoding" EXACT [WSIO, http://wsio.org]
+synonym: "Type of data compression and/or encoding" EXACT [WSIO, http://wsio.org]
+synonym: "Data compression and/or encoding method" EXACT [WSIO, http://wsio.org] ! However, one should note that 'Compression and encoding' is not limited only to explicit compression, encoding, or combined methods or algorithms.
+synonym: "Compressed and/or encoded data format" NARROW [WSIO, http://wsio.org] ! The same concept in the case when 'Compression and encoding' is used in a role of semantically annotating data entities.
+synonym: "Process" RELATED [WSIO, http://wsio.org] ! Form of data compression and/or encoding is related to processes of compressing, decompressing, encoding, and decoding data.
+synonym: "continuant" BROAD [snap:Continuant]
+synonym: "Format" RELATED [EDAM:0001915, http://edam.net/format/1915] ! A broader concept in the case when the 'Compression' sub-ontology is used in a role of semantically annotating data entities. Narrower in the sense of being limited to data format.
+synonym: "Operation" RELATED [WSIO:operation, http://wsio.org/operation] ! Form of data compression and/or encoding is related to operations of compressing, decompressing, encoding, and decoding data.
+synonym: "quality" RELATED [snap:Quality] ! BFO 'quality' is narrower in the sense that it is a 'dependent_continuant' (snap:DependentContinuant), and broader in the sense that it is any quality not just the form of data compression and/or encoding.
+synonym: "function" RELATED [snap:Function] ! Form of data compression and/or encoding is related to functions of compressing, decompressing, encoding, and decoding data.
+synonym: "process" RELATED [span:Process] ! Form of data compression and/or encoding is related to processes of compressing, decompressing, encoding, and decoding data.
+
+[Term]
+id: WSIO_encoding:encoding
+name: Encoding
+subset: Encoding
+uri: http://wsio.org/encoding
+is_obsolete: true {since=beta0.1}
+replaced_by: WSIO_compression:15
+
+[Term]
+id: WSIO_enccomp:enccomp {since=beta0}
+name: Encoding and compression
+subset: Compression
+uri: http://wsio.org/enccomp
+is_obsolete: true {since=beta0.1}
+replaced_by: WSIO_compression:16
+
+
+
+
+! WSIO Operation sub-ontology
+
+
+[Term]
+id: WSIO_operation:6 {since=beta0}
+name: Start computation
+subset: Operation
+uri: http://wsio.org/operation/6
+def: "'Start computation' is an operation that starts a new computation." [WSIO, http://wsio.org]
+synonym: "Start job" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_operation:operation
+subset: SupportedByEsysbio ! Note: Current support in eSysbio is constrained to two predefined scenarios named 'Simple Async Loop' and 'Michi's Loop'. In the first one 'Start computation' 'has output' 'Computation ID'. In the latter 'Start computation' 'has input' 'Computation ID'.
+
+[Term]
+id: WSIO_operation:7 {since=beta0}
+name: Get status
+subset: Operation
+uri: http://wsio.org/operation/7
+def: "'Get status' is an operation that returns a status of a session or a computation." [WSIO, http://wsio.org]
+synonym: "Get session status" EXACT [WSIO, http://wsio.org]
+synonym: "Query status" EXACT [WSIO, http://wsio.org]
+synonym: "Get computation status" NARROW [WSIO, http://wsio.org]
+synonym: "Get job status" NARROW [WSIO, http://wsio.org]
+is_a: WSIO_operation:operation
+relationship: WSIO_relation:has_input WSIO_data:9 ! Computation ID Should be Session ID when added
+relationship: WSIO_relation:has_output WSIO_data:10 ! Session status
+subset: SupportedByEsysbio
+
+[Term]
+id: WSIO_operation:8 {since=beta0}
+name: Get result
+subset: Operation
+uri: http://wsio.org/operation/8
+def: "'Get result' is an operation that returns a result of a computation." [WSIO, http://wsio.org]
+synonym: "Get results" EXACT [WSIO, http://wsio.org]
+synonym: "Fetch result" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_operation:operation
+relationship: WSIO_relation:has_input WSIO_data:9 ! Computation ID
+relationship: WSIO_relation:has_output WSIO_data:26 ! Result
+subset: SupportedByEsysbio
+
+[Term]
+id: WSIO_operation:23 {since=beta0}
+name: Init session
+subset: Operation
+uri: http://wsio.org/operation/23
+def: "'Init session' is an operation that starts a new session." [WSIO, http://wsio.org]
+synonym: "Start new session" EXACT [WSIO, http://wsio.org]
+synonym: "Open session" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_operation:operation
+relationship: WSIO_relation:has_output WSIO_data:9 ! Computation ID Should be Session ID when added
+subset: SupportedByEsysbio ! Note: Current support in eSysbio is constrained to a predefined scenario named 'Michi's Loop'.
+
+[Term]
+id: WSIO_operation:24 {since=beta0}
+name: Send data
+subset: Operation
+uri: http://wsio.org/operation/24
+def: "'Send data' is an operation that sends or sets the payload input data for a computation." [WSIO, http://wsio.org]
+synonym: "Send payload input data" EXACT [WSIO, http://wsio.org]
+synonym: "Set data" EXACT [WSIO, http://wsio.org]
+synonym: "Send input" BROAD [WSIO, http://wsio.org]
+is_a: WSIO_operation:operation
+subset: SupportedByEsysbio ! Note: Current support in eSysbio is constrained to a predefined scenario named 'Michi's Loop', where 'Send data' 'has input' 'Computation ID'
+
+[Term]
+id: WSIO_operation:25 {since=beta0}
+name: Set parameters
+subset: Operation
+uri: http://wsio.org/operation/25
+def: "'Set parameters' is an operation that sets the (input) parameters of a parameterised computation." [WSIO, http://wsio.org]
+synonym: "Send parameters" EXACT [WSIO, http://wsio.org]
+synonym: "Send input" BROAD [WSIO, http://wsio.org]
+is_a: WSIO_operation:operation
+subset: SupportedByEsysbio ! Note: Current support in eSysbio is constrained to a predefined scenario named 'Michi's Loop', where 'Set parameters' 'has input' 'Computation ID'
+
+
+
+
+! WSIO Data sub-ontology
+
+
+[Term]
+id: WSIO_data:5 {since=beta0}
+name: Identifier
+subset: Data
+uri: http://wsio.org/data/5
+def: "Identifier is a primitive datum uniquely identifying an entity." [WSIO, http://wsio.org]
+xref: EDAM:0000842
+xref: EDAM:0002926
+xref: EDAM:0002860
+xref: EDAM:0002861
+synonym: "ID" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_data:data
+subset: SupportedByEsysbio
+
+[Term]
+id: WSIO_data:9 {since=beta0}
+name: Computation ID
+subset: Data
+uri: http://wsio.org/data/9
+def: "Computation ID is a unique identifier of a computation process instance, that is used by the infrastructure responsible for the computation." [WSIO, http://wsio.org]
+synonym: "Job ID" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_data:5
+subset: SupportedByEsysbio
+
+[Term]
+id: WSIO_data:10 {since=beta0}
+name: Session status
+subset: Data
+uri: http://wsio.org/data/10
+def: "Session status is a datum describing a state of a session." [WSIO, http://wsio.org]
+synonym: "Computation status" NARROW [WSIO, http://wsio.org]
+synonym: "Job status" NARROW [WSIO, http://wsio.org]
+is_a: WSIO_data:data
+subset: SupportedByEsysbio
+
+[Term]
+id: WSIO_data:26 {since=beta0}
+name: Result
+subset: Data
+uri: http://wsio.org/data/26
+def: "Result is a datum (output argument) holding the result of a computation, or the actual (full, partial, or a part of) resulting data of a computation." [WSIO, http://wsio.org]
+synonym: "Computation result" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_data:data
+
+
+
+
+! WSIO Transfer sub-ontology !(Transfer protocol?)
+
+! In SOAP body, In-line, SOAP e
+! MTOM e?
+! Download from URL e
+! By custom reference, By proprietary reference, By local reference, By private reference e???
+
+[Term]
+id: WSIO_transfer:11 {since=beta0}
+name: In SOAP body
+subset: Transfer
+uri: http://wsio.org/transfer/11
+def: "'In SOAP body' is a form of data transfer inside the body of a SOAP message." [WSIO, http://wsio.org]
+synonym: "In-line" EXACT [WSIO, http://wsio.org]
+synonym: "SOAP" EXACT [WSIO, http://wsio.org]
+is_a: WSIO_transfer:transfer
+subset: SupportedByEsysbio
+
+[Term]
+id: WSIO_transfer:12 {since=beta0}
+name: MTOM
+subset: Transfer
+uri: http://wsio.org/transfer/12
+def: "MTOM is a form of data transfer as an MTOM attachment of a SOAP message." [WSIO, http://wsio.org]
+is_a: WSIO_transfer:transfer
+subset: SupportedByEsysbio !?
+
+[Term]
+id: WSIO_transfer:13 {since=beta0}
+name: Download from URL
+subset: Transfer
+uri: http://wsio.org/transfer/13
+def: "'Download from URL' is a form of data transfer by downloading from a specified URL." [WSIO, http://wsio.org]
+comment: Within the semantic annotation of forms of transfer of Web services or other tools, the data (argument) holding the specified URL should be annotated as having transfer 'Download from URL'.
+is_a: WSIO_transfer:transfer
+subset: SupportedByEsysbio
+
+
+
+
+! WSIO Compression sub-ontology
+
+
+[Term]
+id: WSIO_compression:14 {since=beta0}
+name: Data compression
+subset: Compression
+uri: http://wsio.org/compression/14
+def: "Data compression (form of data compression) is the way data is compressed to decrease its volume, and the implied way how it should be decompressed to be readable in its original form again. It may include archiving of multiple files." [WSIO, http://wsio.org]
+synonym: "Form of data compression" EXACT [WSIO, http://wsio.org]
+synonym: "Type of data compression" EXACT [WSIO, http://wsio.org]
+synonym: "Data compression method" EXACT [WSIO, http://wsio.org] ! However, one should note that 'Data compression' is not limited only to an explicit compression method and not to an explicit compression algorithm.
+synonym: "Compressed data format" NARROW [WSIO, http://wsio.org] ! The same concept in the case when 'Data compression' is used in a role of semantically annotating data entities.
+synonym: "Binary format" RELATED [EDAM:0002333, http://edam.net/format/2333] ! Typically, but not necessarily, the format of compressed data is binary. Applies when 'Data compression' is used in a role of semantically annotating compressed data entities.
+is_a: WSIO_compression:compression
+
+[Term]
+id: WSIO_compression:17 {since=beta0}
+name: ZIP
+subset: Compression
+uri: http://wsio.org/compression/17
+def: "ZIP is a compressed and archived data format, and a compression and archiving method, supported by multiple tools and systems." [WSIO, http://wsio.org]
+xref: http://en.wikipedia.org/wiki/ZIP_file_format
+synonym: "Binary format" BROAD [EDAM:0002333, http://edam.net/format/2333] ! Or just 'RELATED'. 'ZIP' is a data format, but may have a more generic role of a "form" of de-/compression applying a method for de-/compression (within the scope of WSIO), but not of a particular de-/compression tool.
+is_a: WSIO_compression:14
+
+[Term]
+id: WSIO_compression:18 {since=beta0}
+name: gzip
+subset: Compression
+uri: http://wsio.org/compression/18
+def: "gzip (GNU zip) is a compression method supported by multiple tools and systems. It has a corresponding gzip data format." [WSIO, http://wsio.org]
+xref: http://en.wikipedia.org/wiki/Gzip
+is_a: WSIO_compression:14
+
+[Term]
+id: WSIO_compression:19 {since=beta0}
+name: tar gzip
+subset: Compression
+uri: http://wsio.org/compression/19
+def: "tar archive (tape archive) compressed by gzip." [WSIO, http://wsio.org]
+synonym: "tar (file format)" RELATED [http://en.wikipedia.org/wiki/Tar_(file_format)]
+synonym: "gzip" RELATED [http://en.wikipedia.org/wiki/Gzip]
+is_a: WSIO_compression:14
+
+[Term]
+id: WSIO_compression:20 {since=beta0}
+name: EXI
+subset: Compression
+uri: http://wsio.org/compression/20
+def: "Efficient XML Interchange (EXI) is a compressed binary data format and a form of compression of XML-formatted data." [WSIO, http://wsio.org]
+xref: http://www.w3.org/TR/exi/ {spec=true}
+is_a: WSIO_compression:14
+
+[Term]
+id: WSIO_compression:15 {since=beta0}
+name: Binary-to-text encoding
+subset: Compression
+uri: http://wsio.org/compression/15
+def: "Data compression (type of data compression), an encoding method of binary data, or a sequence of compression and encoding methods, are the ways data is compressed and/or eventually encoded." [WSIO, http://wsio.org]
+synonym: "Form of data compression" EXACT [WSIO, http://wsio.org]
+synonym: "Type of data compression" EXACT [WSIO, http://wsio.org]
+synonym: "Data compression method" EXACT [WSIO, http://wsio.org] ! However, one should note that 'Data compression' is not limited only to an explicit compression method and not to an explicit compression algorithm.
+synonym: "Binary-to-text encoded format" NARROW [WSIO, http://wsio.org] ! The same concept in the case when 'Binary-to-text encoding' is used in a role of semantically annotating encoded data entities.
+synonym: "Text format" RELATED [EDAM:0002330, http://edam.net/format/2330] ! A broader concept in the case when the 'Binary-to-text encoding' is used in a role of semantically annotating encoded data entities. Narrower in the sense of being limited to data format.
+is_a: WSIO_compression:compression
+
+[Term]
+id: WSIO_compression:21 {since=beta0}
+name: base64
+subset: Compression
+uri: http://wsio.org/compression/21
+def: "base64 is a form of representing binary data in text format." [WSIO, http://wsio.org]
+xref: http://en.wikipedia.org/wiki/Base64
+is_a: WSIO_compression:15
+
+[Term]
+id: WSIO_compression:16 {since=beta0}
+name: Combination of compression and encoding
+subset: Compression
+uri: http://wsio.org/compression/16
+def: "Combination of forms of data compression and/or binary-to-text encoding is a sequence of data compressions and encodings that decreases the data volume and encodes it in the desired format. The reverse sequence of compressions and encodings should be used to decompress and decode the data into its original form." [WSIO, http://wsio.org]
+comment: In the specialised ontology concepts of 'Combination of compression and encoding', the forms of compression and encoding are listed in their names (terms) in the order of the compression/encoding sequence. The reverse sequence must be used for decompression/decoding.
+synonym: "Sequence of forms of data compression and binary-to-text encoding" EXACT [WSIO, http://wsio.org]
+synonym: "Combined data compression and encoding method" EXACT [WSIO, http://wsio.org] ! However, one should note that 'Combination of compression and encoding' is not limited only to explicit combined methods or algorithms.
+synonym: "Compressed and encoded data format" NARROW [WSIO, http://wsio.org] ! The same concept in the case when 'Combination of compression and encoding' is used in a role of semantically annotating compressed and encoded data entities.
+is_a: WSIO_compression:compression
+
+[Term]
+id: WSIO_compression:22 {since=beta0}
+name: gzip base64
+subset: Compression
+uri: http://wsio.org/compression/22
+def: "'gzip base46' combines compression by gzip followed by base64 encoding." [WSIO, http://wsio.org]
+is_a: WSIO_compression:16
+
+
+
+
+! WSIO relations
+
+[Typedef]
+id: WSIO_relation:has_input
+name: has input
+subset: Relation
+uri: http://wsio.org/relation/has_input
+def: "'A has_input B' defines for the subject A, that it has the object B as a necessary or actual input or input argument." [WSIO, http://wsio.org]
+comment: Subject A can either be concept that is or has an 'Operation' function, or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that has an 'Operation' function or is an 'Operation'.\nObject B can be any concept or entity.\n\nIn WSIO, only 'has_input' is explicitly defined between WSIO concepts, not the inverse 'is_input_of'.
+xref: EDAM:has_input
+synonym: "has_specified_input" NARROW [http://purl.obolibrary.org/obo/OBI_0000293] ! 'OBI:has_specified_input' only relates subjects that are a 'planned process' (http://purl.obolibrary.org/obo/OBI_0000011) with objects that are a 'continuant' (snap:Continuant).
+synonym: "has_participant" RELATED [OBO_REL:has_participant] ! 'OBO_REL:has_participant' is narrower in the sense that it only relates ontological categories (concepts) that are a 'process' (span:Process) with ontological categories that are a 'continuant' (snap:Continuant), and broader in the sense that it relates with any participating objects not just inputs or input arguments of the subject.
+inverse_of: WSIO_relation:is_input_of
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: true ! In unusual cases.
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:is_input_of
+name: is input of
+subset: Relation
+uri: http://wsio.org/relation/is_input_of
+def: "'A is_input_of B' defines for the subject A, that it as a necessary or actual input or input argument of the object B." [WSIO, http://wsio.org]
+comment: Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated).\nObject B can either be a concept that is or has an 'Operation' function, or an entity outside of an ontology that has an 'Operation' function or is an 'Operation'.\n\nIn WSIO, 'is_input_of' is not explicitly defined between WSIO concepts, only the inverse 'has_input'.
+synonym: "is_specified_input_of" NARROW [http://purl.obolibrary.org/obo/OBI_0000295] ! 'OBI:is_specified_input_of' only relates subjects that are a 'continuant' (snap:Continuant) with objects that are a 'planned process' (http://purl.obolibrary.org/obo/OBI_0000011).
+synonym: "participates_in" RELATED [OBO_REL:participates_in] ! 'OBO_REL:participates_in' is narrower in the sense that it only relates ontological categories (concepts) that are a 'continuant' (snap:Continuant) with ontological categories that are a 'process' (span:Process), and broader in the sense that it relates any participating subjects not just inputs or input arguments.
+inverse_of: WSIO_relation:has_input
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: true ! In unusual cases.
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:has_output
+name: has output
+subset: Relation
+uri: http://wsio.org/relation/has_output
+def: "'A has_output B' defines for the subject A, that it has the object B as a necessary or actual output or output argument." [WSIO, http://wsio.org]
+comment: Subject A can either be concept that is or has an 'Operation' function, or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that has an 'Operation' function or is an 'Operation'.\nObject B can be any concept or entity.\n\nIn WSIO, only 'has_output' is explicitly defined between WSIO concepts, not the inverse 'is_output_of'.
+xref: EDAM:has_output
+synonym: "has_specified_output" NARROW [http://purl.obolibrary.org/obo/OBI_0000299] ! 'OBI:has_specified_output' only relates subjects that are a 'planned process' (http://purl.obolibrary.org/obo/OBI_0000011) with objects that are a 'continuant' (snap:Continuant).
+synonym: "has_participant" RELATED [OBO_REL:has_participant] ! 'OBO_REL:has_participant' is narrower in the sense that it only relates ontological categories (concepts) that are a 'process' (span:Process) with ontological categories that are a 'continuant' (snap:Continuant), and broader in the sense that it relates with any participating objects not just outputs or output arguments of the subject. It is also not clear whether an output (result) actually participates in the process that generates it.
+inverse_of: WSIO_relation:is_output_of
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: true ! In unusual cases.
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:is_output_of
+name: is output of
+subset: Relation
+uri: http://wsio.org/relation/is_output_of
+def: "'A is_output_of B' defines for the subject A, that it as a necessary or actual output or output argument of the object B." [WSIO, http://wsio.org]
+comment: Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated).\nObject B can either be a concept that is or has an 'Operation' function, or an entity outside of an ontology that has an 'Operation' function or is an 'Operation'.\n\nIn WSIO, 'is_output_of' is not explicitly defined between WSIO concepts, only the inverse 'has_output'.
+synonym: "is_specified_output_of" NARROW [http://purl.obolibrary.org/obo/OBI_0000312] ! 'OBI:is_specified_output_of' only relates subjects that are a 'continuant' (snap:Continuant) with objects that are a 'planned process' (http://purl.obolibrary.org/obo/OBI_0000011).
+synonym: "participates_in" RELATED [OBO_REL:participates_in] ! 'OBO_REL:participates_in' is narrower in the sense that it only relates ontological categories (concepts) that are a 'continuant' (snap:Continuant) with ontological categories that are a 'process' (span:Process), and broader in the sense that it relates any participating subjects not just outputs or output arguments. It is also not clear whether an output (result) actually participates in the process that generates it.
+inverse_of: WSIO_relation:has_output
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: true ! In unusual cases.
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+! If we would be agnostic to the doctrine of a bipolar world with a clear and never-changing border between types/classes/universals and instances/particulars/individuals, or between the domain (of subjects) of every semantic annotation and its range (of objects), we should start using a type of relation in the sense of the following:
+[Typedef]
+id: WSIO_relation:is
+name: is
+subset: Relation
+uri: http://wsio.org/relation/is
+def: "'A is B' or 'A is a B' defines for the subject A, that it is a specialisation of, exact equivalent of, or conceptually belonging to, the object B." [WSIO, http://wsio.org]
+comment: Subject A can either be any ontology concept (ontological category), or any entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated).\nB can either be any ontology concept (category), or (rarely) an entity outside of an ontology (only if A is an entity, or in a role of an entity, being semantically annotated).\nNote a deviation from linguistics: 'is_a/is' should not be used for properties having a value or entities having properties (e.g. 'Name is Jon', 'Car is red') - these should be denoted by 'The subject has name Jon' or 'Name has value Jon', and 'Car has colour red'. 'Colour is red' is wrong and 'Red is (a) colour' is a proper use of 'is_a'/'is'.\n\nIn the scope of WSIO, 'is' is only for relating annotated entities outside of WSIO with 'Data' concepts. WSIO uses the 'OBO_REL:is_a' instead of 'is' for the specialisation relation between WSIO concepts to enable interoperability with tools supporting the OBO format (a semantic compromise).
+synonym: "is a" EXACT [WSIO, http://wsio.org] ! 'EXACT' if we don't play with the grammar & semantics of articles.
+synonym: "is_a" NARROW [OBO_REL:is_a] ! Its 'EXACT' synonym 'is_subtype_of' sounds like limiting both the domain and range to entities or concepts that are some kind of types. We however use the 'OBO_REL:is_a' instead of 'is' for the specialisation relation between WSIO concepts to enable interoperability with tools supporting the OBO format (a semantic compromise).
+synonym: "instance_of" NARROW [OBO_REL:instance_of] ! Limiting to subjects that are some kind of instances. (IF tools are supporting 'instance_of' (annotation statements in what format?) we suggest using it as a semantic compromise instead of 'is', when relating an entity as belonging to a concept.)
+synonym: "subClassOf" NARROW [rdfs:subClassOf]
+synonym: "subPropertyOf" NARROW [rdfs:subPropertyOf]
+synonym: "equivalentClass" NARROW [owl:equivalentClass]
+synonym: "equivalentProperty" NARROW [owl:equivalentProperty]
+synonym: "sameAs" NARROW [owl:sameAs]
+transitive_over: OBO_REL:is_a
+is_cyclic: true
+is_reflexive: true
+is_symmetric: false
+is_anti_symmetric: true
+is_transitive: true
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:has_function
+name: has function
+subset: Relation
+uri: http://wsio.org/relation/has_function
+def: "'A has_function B' defines for the subject A, that it has the object B as its function." [WSIO, http://wsio.org]
+comment: Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated).\nObject B can either be a concept that is (or is in a role of) a function, or an entity outside of an ontology that is (or is in a role of) a function specification.\n\nIn the scope of WSIO, 'has_function' is only for relating annotated entities outside of WSIO with 'Operation' concepts.
+synonym: "has_function" NARROW [http://purl.obolibrary.org/obo/OBI_0000306] ! 'OBI:has_function' only relates subjects that are an 'independent_continuant' (snap:IndependentContinuant), so for example no processes, with objects that are a 'function' (snap:Function). It does not define explicitly that the object is a function of the subject.
+synonym: "bearer_of" RELATED [OBO_REL:bearer_of] ! Is defined anywhere? Not in the 'unknown' version of RO. 'OBO_REL:bearer_of' is narrower in the sense that it only relates ontological categories (concepts) that are an 'independent_continuant' (snap:IndependentContinuant) with ontological categories that are a 'specifically_dependent_continuant' (snap:SpecificallyDependentContinuant), and broader in the sense that it relates with any borne objects not just functions of the subject.
+inverse_of: WSIO_relation:is_function_of
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: true ! In very unusual cases.
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:is_function_of
+name: is function of
+subset: Relation
+uri: http://wsio.org/relation/is_function_of
+def: "'A is_function_of B' defines for the subject A, that it is a function of the object B." [WSIO, http://wsio.org]
+comment: Subject A can either be concept that is (or is in a role of) a function, or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that is (or is in a role of) a function specification.\nObject B can be any concept or entity.\n\nIn the scope of WSIO, 'is_function_of' is not used.
+synonym: "function_of" NARROW [OBO_REL:function_of] ! Is defined anywhere? Not in the 'unknown' version of RO. 'OBO_REL:function_of' only relates subjects that are a 'function' (snap:Function) with objects that are an 'independent_continuant' (snap:IndependentContinuant), so for example no processes. It does not define explicitly that the subject is a function of the object.
+synonym: "inheres_in" RELATED [OBO_REL:inheres_in] ! Is defined anywhere? Not in the 'unknown' version of RO. 'OBO_REL:inheres_in' is narrower in the sense that it only relates ontological categories (concepts) that are a 'specifically_dependent_continuant' (snap:SpecificallyDependentContinuant) with ontological categories that are an 'independent_continuant' (snap:IndependentContinuant), and broader in the sense that it relates any borne subjects not just functions.
+inverse_of: WSIO_relation:has_function
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: true ! In very unusual cases.
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:has_transfer
+name: has transfer
+subset: Relation
+uri: http://wsio.org/relation/has_transfer
+def: "'A has_transfer B' defines for the subject A, that it has the object B as its transfer (form of transfer, transfer protocol)." [WSIO, http://wsio.org]
+comment: Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that is (or is in a role of) an input, output, input argument, or output argument of an 'Operation'.\nObject B can either be a concept that is a 'Transfer' (or has a 'Transfer' function), or an entity outside of an ontology that has a 'Transfer' function or is a 'Transfer' (a transfer specification).\n\nIn the scope of WSIO, 'has_transfer' is only for relating annotated entities outside of WSIO with 'Transfer' concepts.
+synonym: "has_quality" RELATED [http://purl.obolibrary.org/obo/OBI_0000298] ! 'OBI:has_quality' might be seen narrower in the sense that it only relates subjects that are an 'independent_continuant' (snap:IndependentContinuant) with objects that are a 'quality' (snap:Quality), and is broader in the sense that it relates with any qualities of the subject.
+inverse_of: WSIO_relation:is_transfer_of
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: false
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:is_transfer_of
+name: is transfer of
+subset: Relation
+uri: http://wsio.org/relation/is_transfer_of
+def: "'A is_transfer_of B' defines for the subject A, that it is a transfer (form of transfer, transfer protocol) of the object B." [WSIO, http://wsio.org]
+comment: Subject A can either be a concept that is a 'Transfer' (or has a 'Transfer' function), or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that has a 'Transfer' function or is a 'Transfer' (a transfer specification).\nObject B can be any concept or entity outside of an ontology that is (or is in a role of) an input, output, input argument, or output argument of an 'Operation'.\n\nIn the scope of WSIO, 'is_transfer_of' is not used.
+synonym: "quality_of" RELATED [OBO_REL:quality_of] ! Is defined anywhere? Not in the 'unknown' version of RO. 'OBO_REL:quality_of' might be seen narrower in the sense that it only relates subjects that are a 'quality' (snap:Quality) with objects that are an 'independent_continuant' (snap:IndependentContinuant), and is broader in the sense that it relates any qualities of the object.
+inverse_of: WSIO_relation:has_transfer
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: false
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:has_compression
+name: has compression
+subset: Relation
+uri: http://wsio.org/relation/has_compression
+def: "'A has_compression B' defines for the subject A, that it has the object B as its compression (form of compression, compressed format), and/or binary-to-text encoding." [WSIO, http://wsio.org]
+comment: Subject A can be any concept or entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that is (or is in a role of) an input, output, input argument, or output argument of an 'Operation'.\nObject B can either be a concept that is a 'Compression' (or has a 'Compression' function), or an entity outside of an ontology that has a 'Compression' function or is a 'Compression' (a compression/encoding method or format specification).\n\nIn the scope of WSIO, 'has_compression' is only for relating annotated entities outside of WSIO with 'Compression' concepts.
+synonym: "has transfer compression" NARROW [WSIO, http://wsio.org]
+synonym: "has_quality" RELATED [http://purl.obolibrary.org/obo/OBI_0000298] ! 'OBI:has_quality' might be seen narrower in the sense that it only relates subjects that are an 'independent_continuant' (snap:IndependentContinuant) with objects that are a 'quality' (snap:Quality), and is broader in the sense that it relates with any qualities of the subject.
+inverse_of: WSIO_relation:is_compression_of
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: false
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+[Typedef]
+id: WSIO_relation:is_compression_of
+name: is compression of
+subset: Relation
+uri: http://wsio.org/relation/is_compression_of
+def: "'A is_compression_of B' defines for the subject A, that it is a compression (form of compression, compressed format), and/or binary-to-text encoding, of the object B." [WSIO, http://wsio.org]
+comment: Subject A can either be a concept that is a 'Compression' (or has a 'Compression' function), or an entity outside of an ontology (or an ontology concept in a role of an entity being semantically annotated) that has a 'Compression' function or is a 'Compression' (a compression/encoding method or format specification).\nObject B can be any concept or entity outside of an ontology that is (or is in a role of) an input, output, input argument, or output argument of an 'Operation'.\n\nIn the scope of WSIO, 'is_compression_of' is not used.
+synonym: "is transfer compression of" NARROW [WSIO, http://wsio.org]
+synonym: "quality_of" RELATED [OBO_REL:quality_of] ! Is defined anywhere? Not in the 'unknown' version of RO. 'OBO_REL:quality_of' might be seen narrower in the sense that it only relates subjects that are a 'quality' (snap:Quality) with objects that are an 'independent_continuant' (snap:IndependentContinuant), and is broader in the sense that it relates any qualities of the object.
+inverse_of: WSIO_relation:has_compression
+transitive_over: OBO_REL:is_a ! Every relation type (not a metadata tag) should be transitive over 'is', shouldn't it?
+is_cyclic: false
+is_reflexive: false
+is_symmetric: false
+is_anti_symmetric: false
+is_transitive: false
+is_metadata_tag: false
+
+
+
+
+! The end of WSIO.

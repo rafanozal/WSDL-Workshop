@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl" ?>
+<wsdl:definitions name="WebNMASingleAnalysis"
+	targetNamespace="http://www.bccs.uni.no/units/cbu/service/webnma/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://www.bccs.uni.no/units/cbu/service/webnma/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:sawsdl="http://www.w3.org/ns/sawsdl"
+>
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" targetNamespace="http://www.bccs.uni.no/units/cbu/service/webnma/">
+			
+			<xsd:import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="http://www.w3.org/2005/05/xmlmime" />
+
+			<xsd:simpleType name="JobId" sawsdl:modelReference="http://wsio.org/data_009">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="60" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:complexType name="FileType">
+				<xsd:sequence>
+					<xsd:element name="filename" type="xsd:string" minOccurs="1" maxOccurs="1" />
+					<xsd:element name="fileContent" type="xsd:string" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_011" />
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:complexType name="StartInputComplexType">
+				<xsd:sequence>
+					<xsd:choice>
+						<xsd:element name="pdbId" type="xsd:string" />
+						<xsd:element name="pdbFile" type="tns:FileType" />
+					</xsd:choice>
+					<xsd:element name="chain" type="xsd:string" minOccurs="0" maxOccurs="1" />
+				</xsd:sequence>			
+			</xsd:complexType>
+
+			<xsd:element name="StartNormalModesCalculation">
+			 	<xsd:complexType>
+				 	<xsd:sequence>
+						 <xsd:element name="StartInput" type="tns:StartInputComplexType" minOccurs="1" maxOccurs="1" />
+				 	</xsd:sequence> 
+			 	</xsd:complexType>
+			 </xsd:element>
+			
+			<xsd:element name="StartNormalModesCalculationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="CheckStatus">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="CheckStatusResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StatusMsg" sawsdl:modelReference="http://wsio.org/data_010">
+							<xsd:simpleType>
+								<xsd:annotation>
+									<xsd:documentation>A list of possible states of a job</xsd:documentation>
+								</xsd:annotation>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="SUBMITTED" sawsdl:modelReference="http://wsio.org/data_27" />
+									<xsd:enumeration value="INPROGRESS" sawsdl:modelReference="http://wsio.org/data_27" />
+									<xsd:enumeration value="COMPLETE" sawsdl:modelReference="http://wsio.org/data_28" />
+									<xsd:enumeration value="ERROR" sawsdl:modelReference="http://wsio.org/data_29" />
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="SingleAnalysisFault">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="error" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchDeformationEnergiesResultURI">
+				<xsd:annotation>
+					<xsd:documentation>Gets the file containing the deformation energies for a normal modes calculation. Returns an error if the session id has expired.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchDeformationEnergiesResultURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="deformationEnergiesURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchEigenValuesResultURI">
+				<xsd:annotation>
+					<xsd:documentation>Message for getting eigenvalue result. Requires job id and a value indicating which format to return: raw data file (DAT) or plot (PDF).</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:simpleType name="resultDataType">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="DAT" />
+					<xsd:enumeration value="PDF" />
+				</xsd:restriction>
+			</xsd:simpleType>
+
+			<xsd:element name="FetchEigenValuesResultURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="eigenValueURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchWarningsAndErrors">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchWarningsAndErrorsResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="warnings" type="xsd:string" minOccurs="0" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_011" />
+						<xsd:element name="errors" type="xsd:string" minOccurs="0" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_011" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchGeneratedPDBURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchGeneratedPDBURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="pdbFileURI" type="xsd:string" minOccurs="1" maxOccurs="1" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013 " />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchAtomicFluctuationsURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchAtomicFluctuationsURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="atomicFluctuationsURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchCorrelationMatrixURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchCorrelationMatrixURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="correlationMatrixURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchAtomicDisplacementsURI">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobId" type="tns:JobId" minOccurs="1" maxOccurs="1" />
+						<xsd:element name="resultDataType" type="tns:resultDataType" default="DAT" />
+						<xsd:element name="modeNumber" type="xsd:int" minOccurs="0" maxOccurs="1" />
+						<xsd:element name="getCollectedDisplacements" type="xsd:boolean" default="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="FetchAtomicDisplacementsURIResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="atomicDisplacementsURI" type="xsd:anyURI" sawsdl:modelReference="http://edamontology.org/data_0006 http://edamontology.org/format_1915 http://wsio.org/transfer_013" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="StartNormalModesCalculationRequest">
+		<wsdl:part name="paramters" element="tns:StartNormalModesCalculation"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="StartNormalModesCalculationResponse">
+		<wsdl:part name="parameters" element="tns:StartNormalModesCalculationResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="CheckStatusRequest">
+		<wsdl:part name="parameters" element="tns:CheckStatus"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="CheckStatusResponse">
+		<wsdl:part name="parameters" element="tns:CheckStatusResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="SingleAnalysisFault">
+		<wsdl:part name="fault" element="tns:SingleAnalysisFault"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchDeformationEnergiesResultURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchDeformationEnergiesResultURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchDeformationEnergiesResultURIResponse">
+		<wsdl:part name="parameters"
+			element="tns:FetchDeformationEnergiesResultURIResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchEigenValuesResultURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchEigenValuesResultURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchEigenValuesResultURIResponse">
+		<wsdl:part name="parameters" element="tns:FetchEigenValuesResultURIResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchWarningsAndErrorsRequest">
+		<wsdl:part name="parameters" element="tns:FetchWarningsAndErrors"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchWarningsAndErrorsResponse">
+		<wsdl:part name="parameters" element="tns:FetchWarningsAndErrorsResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchGeneratedPDBURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchGeneratedPDBURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchGeneratedPDBURIResponse">
+		<wsdl:part name="parameters" element="tns:FetchGeneratedPDBURIResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchAtomicFluctuationsURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchAtomicFluctuationsURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchAtomicFluctuationsURIResponse">
+		<wsdl:part name="parameters" element="tns:FetchAtomicFluctuationsURIResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchCorrelationMatrixURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchCorrelationMatrixURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchCorrelationMatrixURIResponse">
+		<wsdl:part name="parameters" element="tns:FetchCorrelationMatrixURIResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="FetchAtomicDisplacementsURIRequest">
+		<wsdl:part name="parameters" element="tns:FetchAtomicDisplacementsURI"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="FetchAtomicDisplacementsURIResponse">
+		<wsdl:part name="parameters" element="tns:FetchAtomicDisplacementsURIResponse"></wsdl:part>
+	</wsdl:message>
+
+
+	<wsdl:portType name="WebNMASingleAnalysis" sawsdl:modelReference="http://edamontology.org/topic_2814 http://edamontology.org/operation_2426">
+		<wsdl:documentation>Performs normal mode analysis on a structure.
+Provide coordinate information (PDB format) for the equilibrium structure or a PDB id for an existing structure.
+Submit the structure or PDB id with StartNormalModesCalculation (we have a mirror of the PDB database). PDB input files must be given with filename and content.
+
+All results are in the form of a URI, you can retrieve the file with your favourite FTP program. 
+			
+You should always check for warnings with FetchWarningsAndErrors even though the job finished successfully. To verify which residues were used, fetch the PDB file used in the computations with FetchGeneratedPDBURI.</wsdl:documentation>
+		
+		<wsdl:operation name="StartNormalModesCalculation">
+			<wsdl:documentation>Starts normal mode analysis of the structure identified either by the PDB id or by the submitted PDB-formatted structure. Chain identifier can be given, if none is given the analysis will be performed on the whole (possibly multi-chained) structure. 
+
+Only alpha-carbon atoms of standard residues will be used for model building. Use FetchGeneratedPDBURI to check which coordinates were actually used in the computation. 
+Returns a job id that you can use to check for job completion and to fetch results.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_006" />
+			<wsdl:input message="tns:StartNormalModesCalculationRequest"></wsdl:input>
+			<wsdl:output message="tns:StartNormalModesCalculationResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="CheckStatus">
+			<wsdl:documentation>Polls the status of a submitted job. A job that is running returns INPROGRESS, finished job returns COMPLETE (but can have warnings), SUBMITTED jobs are queued for execution. Jobs that do not run will return ERROR.
+Warnings and errors can be retrieved with the FetchWarningsAndErrors operation, which should always be run even if the job succeeds.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_007"/>
+			<wsdl:input message="tns:CheckStatusRequest"></wsdl:input>
+			<wsdl:output message="tns:CheckStatusResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchDeformationEnergiesResultURI">
+			<wsdl:documentation>Returns a URI to the file containing the average deformation energies for the structure you submitted.
+
+Deformation energies averaged over all alpha-carbon positions for the 14 lowest nontrivial modes are returned (DAT extension, raw data format).
+Energies are listed in mode order (increasing eigenvalue).</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchDeformationEnergiesResultURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchDeformationEnergiesResultURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchEigenValuesResultURI">
+			<wsdl:documentation>Fetches a URI to the eigenvalue results for a finished job either as raw data (DAT, default choice) or as a PDF.
+
+DAT (raw data): the first column contains mode numbers, starting at the first nontrivial mode. The second column contains the corresponding eigenvalues.
+PDF: bar-plot of the eigenvalues, modes plotted along the X-axis.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchEigenValuesResultURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchEigenValuesResultURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchWarningsAndErrors">
+			<wsdl:documentation>Fetches the files containing warnings and errors (if any) for a finished job.
+Warnings and errors will only be returned if they are present, otherwise the elements will be empty.</wsdl:documentation>
+			<wsdl:input message="tns:FetchWarningsAndErrorsRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchWarningsAndErrorsResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchGeneratedPDBURI">
+			<wsdl:documentation>Fetches a URI to the PDB file with the alpha-carbon coordinates that were used to compute the normal modes for the current session. 
+This can be used to verify that the model was built with the expected residues.</wsdl:documentation>
+			<wsdl:input message="tns:FetchGeneratedPDBURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchGeneratedPDBURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchAtomicFluctuationsURI">
+			<wsdl:documentation>Fetches a URI to the atomic fluctuations results. Can return either raw data (DAT, default choice) that you can plot yourself or a PDF (limited availability).
+
+DAT (raw data): The first column contains the residue index, the second column contains normalized squared fluctuations. For multi-chain structures	the residue indices respect the chain order in the PDB structure.
+PDF: Fluctuation profile for all residues. Residue indices are ordered as described for the DAT file.</wsdl:documentation>
+			<sawsdl:attrExtensions	sawsdl:modelReference="http://wsio.org/operation_008"/>
+			<wsdl:input message="tns:FetchAtomicFluctuationsURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchAtomicFluctuationsURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchCorrelationMatrixURI">
+			<wsdl:documentation>Fetches a URI to the correlation matrix either as raw data (DAT, default choice) or PDF.
+
+DAT: Diagonal-matrix values of inter-residue correlations. Rows and columns are ordered according to the chain sequence of corresponding residues. For multi-chain structures the row and column ordering respects the chain order in the PDB structure.
+PDF: Diagonal-matrix plot of inter-residue correlations with colour coded correlation coefficients. Residue indices are ordered as in the DAT file.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchCorrelationMatrixURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchCorrelationMatrixURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="FetchAtomicDisplacementsURI">
+			<wsdl:documentation>Fetches the URI to atomic displacements for a specific mode either as raw data (DAT, default choice) or PDF (limited availability). The collected displacements profiles for modes 7 through 56 can also be retrieved.
+
+DAT (raw data): The first column contains residue index in sequence, the second column contains the normalized squared atomic displacements of the requested mode. For multi-chain structures the residue indices respect the chain order in the PDB structure. If results for collected modes are requested they will appear in columns ordered by mode number from left to right (increasing eigenvalue).
+PDF: Atomic displacement profile for all residues. Residue indices are ordered as described for DAT files.
+
+modeNumber specifies the mode you want. Only nontrivial modes are available, starting at mode 7. The highest mode you can obtain individual displacements for is 56. You can only get PDFs for modes 7 through 12, otherwise only DAT file is available.
+
+By setting getCollectedDisplacements to 1 the collected displacement profiles for modes 7 through 56 will be returned. In the DAT file the first column contains residue indices and the remaning columns contain the displacements for each mode.</wsdl:documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008" />
+			<wsdl:input message="tns:FetchAtomicDisplacementsURIRequest"></wsdl:input>
+			<wsdl:output message="tns:FetchAtomicDisplacementsURIResponse"></wsdl:output>
+			<wsdl:fault name="fault" message="tns:SingleAnalysisFault"></wsdl:fault>
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+
+	<wsdl:binding name="WebNMASingleAnalysis"
+		type="tns:WebNMASingleAnalysis">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="CheckStatus">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/CheckStatus" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchDeformationEnergiesResultURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchDeformationEnergiesResultURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchEigenValuesResultURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchEigenValuesResultURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchWarningsAndErrors">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchWarningsAndErrors" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchAtomicFluctuationsURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchAtomicFluctuationsURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchCorrelationMatrixURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchCorrelationMatrixURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchAtomicDisplacementsURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchAtomicDisplacementsURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="FetchGeneratedPDBURI">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/FetchGeneratedPDBURI" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="StartNormalModesCalculation">
+			<soap:operation
+				soapAction="http://www.bccs.uni.no/units/cbu/service/webnma/StartNormalModesCalculation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="fault">
+				<soap:fault use="literal" name="fault" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="WebNMASingleAnalysis">
+		<wsdl:port name="WebNMASingleAnalysis" binding="tns:WebNMASingleAnalysis">
+			<soap:address location="http://cbu.bioinfo.no/ws/WebNMASingleAnalysis" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

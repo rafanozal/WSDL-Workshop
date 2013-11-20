@@ -1,0 +1,48 @@
+<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+
+
+<xs:wsdl name="ClustalW_ws0_1_0.wsdl"> </xs:wsdl>
+<xs:wsdl name="JasparDB.wsdl"> </xs:wsdl>
+<xs:wsdl name="ELMdb.wsdl"> </xs:wsdl>
+<xs:wsdl name="SoranAlignmentService.wsdl"> </xs:wsdl>
+
+<xs:wsdl name="MAFFT_ws0_1_0.wsdl"> </xs:wsdl>
+<xs:wsdl name="MultipleSequenceAlignment_0_1_0.wsdl"> </xs:wsdl>
+<xs:wsdl name="phenomine_1_1.wsdl"> </xs:wsdl>
+<xs:wsdl name="SNPService.wsdl"> </xs:wsdl>
+
+<xs:wsdl name="clustalw2_phylogeny"> </xs:wsdl>
+<xs:wsdl name="WSDbfetch"> </xs:wsdl>
+
+
+</xs:schema>
+
+
+
+
+
+
+<!--
+
+<xs:wsdl name="ClustalW_ws0_1_0.wsdl"> </xs:wsdl>
+<xs:wsdl name="JasparDB.wsdl"> </xs:wsdl>
+<xs:wsdl name="ELMdb.wsdl"> </xs:wsdl>
+<xs:wsdl name="SoranAlignmentService.wsdl"> </xs:wsdl>
+
+<xs:wsdl name="MAFFT_ws0_1_0.wsdl"> </xs:wsdl>
+<xs:wsdl name="MultipleSequenceAlignment_0_1_0.wsdl"> </xs:wsdl>
+<xs:wsdl name="phenomine_1_1.wsdl"> </xs:wsdl>
+<xs:wsdl name="SNPService.wsdl"> </xs:wsdl>
+
+
+
+This one have an error in line 526 column 114. Invalid element name
+
+<xs:wsdl name="bxSequenceShim_0_1_8.wsdl"> </xs:wsdl>
+
+These have a bad attribute definition in xmlmime.xsd ; Where is ending the second attribute? Shouldn't be ONE complex Type per attribute?
+
+<xs:wsdl name="webnma-single.wsdl"> </xs:wsdl>
+<xs:wsdl name="webnma-single-0.7.0.wsdl"> </xs:wsdl>
+
+ -->

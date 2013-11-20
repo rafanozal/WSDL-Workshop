@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 rel. 3 sp1 (http://www.altova.com) by Jan Christian Bryne (University of Bergen) -->
+<xs:schema xmlns="http://elm.eu.org/FunctionalSite" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" xmlns:elm="http://elm.eu.org/ELM" targetNamespace="http://elm.eu.org/FunctionalSite" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:annotation>
+		<xs:documentation>Functional Site type schema for the Eukaryotic Linear Motif resource.</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://elm.eu.org/ELM" schemaLocation="http://api.bioinfo.no/schema/ELM.xsd"/>
+	<xs:element name="FunctionalSite" type="FunctionalSiteType"/>
+	<xs:complexType name="FunctionalSiteType" sawsdl:modelReference="http://edamontology.org/data_2914"><!--"Sequence features metadata"(2914)-->
+		<xs:annotation>
+			<xs:documentation>A set of short linear sequences that can be related to a molecular function.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#label http://edamontology.org/data_1022 http://edamontology.org/data_3107"><!--"Sequence feature label"(1022)--><!--"Sequence feature name"(3107)-->
+				<xs:annotation>
+					<xs:documentation>Name of the Functional Site.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DescriptiveTitle" type="xs:string" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#label http://edamontology.org/data_1022"><!--"Sequence feature label"(1022)-->
+				<xs:annotation>
+					<xs:documentation>A title which is a longer than the name, but still short.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ShortDescription" type="xs:string" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#comment">
+				<xs:annotation>
+					<xs:documentation>A description longer than the descriptive title, but only includes the most important information.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Abstract" type="xs:string" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#comment">
+				<xs:annotation>
+					<xs:documentation>A summary of all relevant knowledge of this Functional Site.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ELM" type="xs:string" minOccurs="0" maxOccurs="unbounded" sawsdl:modelReference="http://edamontology.org/data_1116"><!--"ELM ID"(1116)--><!--Here motif accession (if stable ID). Is ELM identifier or ELM accession here?-->
+				<xs:annotation>
+					<xs:documentation>ELM in the ELM database that represents this Functional Site.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Synonym" type="xs:string" minOccurs="0" maxOccurs="unbounded" sawsdl:modelReference="http://www.w3.org/2000/01/rdf-schema#label http://edamontology.org/data_1022"><!--"Sequence feature label"(1022)-->
+				<xs:annotation>
+					<xs:documentation>Other names used in the literature for this Functional Site.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URL" type="xs:string" minOccurs="0" maxOccurs="unbounded" sawsdl:modelReference="http://edamontology.org/data_1052"><!--"URL"(1052)-->
+				<xs:annotation>
+					<xs:documentation>A reference to a web page containing information about this Functional Site.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GOterm" type="elm:GOtermType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>GO term used to annotate this Functional Site in the ELM database.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="Accession" type="xs:string" use="required" sawsdl:modelReference="http://edamontology.org/data_3034"><!--"Sequence feature identifier"(3034)--><!--Here functional 'site' accession (if stable ID)-->
+			<xs:annotation>
+				<xs:documentation>Functional Site primary key.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CreationDate" type="xs:date" use="required" sawsdl:modelReference="http://purl.org/dc/terms/created http://edamontology.org/data_2156"><!--"Date"(2156)-->
+			<xs:annotation>
+				<xs:documentation>Date of the initial submission of this Functional Site into the ELM database.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ChangeDate" type="xs:date" use="required" sawsdl:modelReference="http://purl.org/dc/terms/modified http://edamontology.org/data_2156"><!--"Date"(2156)-->
+			<xs:annotation>
+				<xs:documentation>Date when this Functional Site was last edited.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+</xs:schema>

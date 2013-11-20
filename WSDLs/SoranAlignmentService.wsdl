@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl"  ?>
+
+<definitions name="SoranAlignmentService" targetNamespace="http://esysbio.org/AlignmentService.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://esysbio.org/AlignmentService.wsdl" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+	<types>
+	
+		<xsd:schema elementFormDefault="qualified" targetNamespace="http://esysbio.org/AlignmentService.wsdl" xmlns:tns="http://esysbio.org/AlignmentService.wsdl" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		
+			<xsd:import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="xmime.xsd"/>
+			
+			<xsd:simpleType name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009">
+				<xsd:restriction base="xsd:string"/>
+			</xsd:simpleType>
+			
+			<xsd:complexType name="AlignmentServiceInputData">
+				<xsd:sequence>
+					<xsd:element name="DatabaseURI" sawsdl:modelReference="http://edamontology.org/data_2044 http://edamontology.org/format_1929 http://wsio.org/transfer_013 http://wsio.org/compression_021" type="xsd:anyURI">
+						<xsd:annotation>
+							<xsd:documentation>The reference sequence/genome for the alignments, in FASTA format. Can consist multiple chromosmes or other sequences.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="QueryURI" sawsdl:modelReference="http://edamontology.org/data_2044 http://edamontology.org/format_1930 http://wsio.org/transfer_013 http://wsio.org/compression_021" type="xsd:anyURI">
+						<xsd:annotation>
+							<xsd:documentation>The query sequences, e.g. short sequencing reads in FASTQ (FASTA works with some aligners) format.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="AlignmentServiceOutputData">
+				<xsd:sequence>
+					<xsd:choice minOccurs="0">
+						<xsd:element name="AlignmentsFileURI" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572       http://wsio.org/transfer_013 http://purl.org/webservices/archive-method/PLAIN_TEXT" type="xsd:anyURI"/>
+						<xsd:element name="AlignmentsInline" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572       http://wsio.org/transfer_011 http://purl.org/webservices/archive-method/PLAIN_TEXT" type="xsd:string"/>
+						<xsd:element name="AlignmentsReferenceID" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572       http://purl.org/webservices/transfer/REF_ID http://purl.org/webservices/archive-method/PLAIN_TEXT" type="xsd:NMTOKEN"/>
+						<!-- xsd:element name="QueryAttachment" type="xmime:base64Binary" / -->
+					</xsd:choice>
+					<!-- xsd:choice minOccurs="0"> <xsd:element name="AlignedIdFilterListURI" 
+						type="xsd:anyURI" /> <xsd:element name="AlignedIdFilterListInline" type="xsd:string" 
+						/> <xsd:element name="AlignedIdFilterListReferenceID" type="xsd:NMTOKEN" 
+						/> <xsd:element name="AlignedIdFilterListAttachment" type="xmime:base64Binary" 
+						/ </xsd:choice> -->
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="MtomData">
+				<xsd:sequence>
+					<xsd:element name="QueryAttachment" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572       http://wsio.org/transfer_012 http://wsio.org/compression_021" type="xmime:base64Binary"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:element name="SetData" type="tns:SetDataComplexType">
+			</xsd:element>
+			
+			<xsd:element name="SetParameters" type="tns:SetParametersComplexType">
+			</xsd:element>
+			
+			<xsd:element name="Start" type="tns:StartComplexType">
+			</xsd:element>
+			
+			<xsd:complexType name="InitComplexType">
+				<xsd:sequence>
+					<xsd:element default="url" name="DataFetchMethod">
+						<xsd:annotation>
+							<xsd:documentation>
+								If the fetch method is &quot;message&quot;,
+								data are
+								expected to be sent as string in the
+								message. If
+								&quot;url&quot;, the data
+								will be
+								fetched from that url via either
+								ftp
+								or http, if &quot;mtom&quot;
+								and mtom
+								attachement will be
+								expected.
+
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<!--	<xsd:enumeration value="message" />-->
+								<xsd:enumeration value="url"/>
+								<!--	<xsd:enumeration value="mtom" />-->
+								<!-- reserved for later use with the data storage service -->
+								<!-- xsd:enumeration value="referenceId" / -->
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element default="url" name="DataReturnMethod">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<!--	<xsd:enumeration value="message" /> -->
+								<xsd:enumeration value="url"/>
+								<!--	<xsd:enumeration value="mtom" />-->
+								<!-- later: -->
+								<!-- xsd:enumeration value="referenceId" / -->
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="InitResponseComplexType">
+				<xsd:sequence>
+					<xsd:element name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:element name="Init" type="tns:InitComplexType">
+			</xsd:element>
+			
+			<xsd:element name="InitResponse" type="tns:InitResponseComplexType"/>
+			
+			<xsd:element name="GetData" type="tns:GetDataComplexType">
+			</xsd:element>
+			
+			<xsd:element name="GetDataResponse" type="tns:GetDataResponseComplexType">
+			</xsd:element>
+			
+			<xsd:element name="GetStatus" type="tns:GetStatusComplexType">
+			</xsd:element>
+			
+			<xsd:element name="GetStatusResponse" type="tns:GetStatusResponseComplexType">
+			</xsd:element>
+			
+			<xsd:element default="" name="Version" type="xsd:string"/>
+			
+			<xsd:element name="VersionResponse" type="tns:VersionResponseComplexType">
+			</xsd:element>
+			
+			<xsd:element name="Init_fault" type="tns:Init_faultComplexType">
+			</xsd:element>
+			
+			<xsd:element name="GetStatus_fault" type="tns:GetStatus_faultComplexType">
+			</xsd:element>
+			
+			<xsd:element name="GetData_fault" type="tns:GetData_faultComplexType">
+			</xsd:element>
+			
+			<xsd:element name="SetData_fault" type="tns:SetData_faultComplexType">
+			</xsd:element>
+			
+			<xsd:element name="SetParameters_fault" type="tns:SetParameters_faultComplexType">
+			</xsd:element>
+			
+			<xsd:element name="Start_fault" type="tns:Start_faultComplexType">
+			</xsd:element>
+			
+			<xsd:complexType name="SetDataComplexType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID">
+					</xsd:element>
+					<xsd:element name="AlignmentInputData" type="tns:AlignmentServiceInputData">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="StartComplexType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetStatusComplexType">
+				<xsd:sequence>
+					<xsd:element name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetStatusResponseComplexType">
+				<xsd:sequence>
+					<xsd:element name="Status" sawsdl:modelReference="http://wsio.org/data_010">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="INIT" sawsdl:modelReference="http://wsio.org/data_027"/>
+								<xsd:enumeration value="SUBMITTED" sawsdl:modelReference="http://wsio.org/data_027"/>
+								<xsd:enumeration value="INPROGRESS" sawsdl:modelReference="http://wsio.org/data_027"/>
+								<xsd:enumeration value="ERROR" sawsdl:modelReference="http://wsio.org/data_029"/>
+								<xsd:enumeration value="INTERRUPTED" sawsdl:modelReference="http://wsio.org/data_029"/>
+								<xsd:enumeration value="COMPLETE" sawsdl:modelReference="http://wsio.org/data_028"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element maxOccurs="1" minOccurs="0" name="PercentProgress" sawsdl:modelReference="http://wsio.org/data_030">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:float">
+								<xsd:maxInclusive value="100"/>
+								<xsd:minInclusive value="0"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetStatus_faultComplexType">
+				<xsd:sequence>
+					<xsd:element name="GetStatus_fault" type="xsd:string">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="Start_faultComplexType">
+				<xsd:sequence>
+					<xsd:element name="Start_fault" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="SetParameters_faultComplexType">
+				<xsd:sequence>
+					<xsd:element name="SetParameters_fault" type="xsd:string">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="Init_faultComplexType">
+				<xsd:sequence>
+					<xsd:element name="Init_fault" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="SetData_faultComplexType">
+				<xsd:sequence>
+					<xsd:element name="SetData_fault" type="xsd:string">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetDataComplexType">
+				<xsd:sequence>
+					<xsd:element name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetDataByMtomComplexType">
+				<xsd:sequence>
+					<xsd:element name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetDataResponseComplexType">
+				<xsd:sequence>
+					<xsd:choice minOccurs="0">
+						<xsd:element name="AlignmentsFileURI" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572 http://wsio.org/transfer_013" type="xsd:anyURI"/>
+						<xsd:element name="AlignmentsInline" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572       http://wsio.org/transfer_011 http://purl.org/webservices/archive-method/PLAIN_TEXT" type="xsd:string"/>
+						<xsd:element name="AlignmentsReferenceID" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2572       http://purl.org/webservices/transfer/REF_ID http://purl.org/webservices/archive-method/PLAIN_TEXT" type="xsd:NMTOKEN"/>
+						<!-- xsd:element name="QueryAttachment" type="xmime:base64Binary" / -->
+					</xsd:choice>
+					<!-- xsd:choice minOccurs="0"> <xsd:element name="AlignedIdFilterListURI" 
+						type="xsd:anyURI" /> <xsd:element name="AlignedIdFilterListInline" type="xsd:string" 
+						/> <xsd:element name="AlignedIdFilterListReferenceID" type="xsd:NMTOKEN" 
+						/> <xsd:element name="AlignedIdFilterListAttachment" type="xmime:base64Binary" 
+						/ </xsd:choice> -->
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetDataByMtomResponseComplexType">
+				<xsd:sequence>
+					<xsd:element name="AlignmentOutputData" type="tns:MtomData">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="GetData_faultComplexType">
+				<xsd:sequence>
+					<xsd:element name="GetData_fault" type="xsd:string">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="VersionResponseComplexType">
+				<xsd:sequence>
+					<xsd:element name="VersionString" type="xsd:string">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:complexType name="SetParametersComplexType">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="1" name="CorrelationID" sawsdl:modelReference="http://wsio.org/data_009" type="tns:CorrelationID">
+					</xsd:element>
+					<xsd:element default="bwa" name="Algorithm">
+						<xsd:annotation>
+							<xsd:documentation>
+								The alignment program to use
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="lastz"/>
+								<!-- <xsd:enumeration value="bfast"></xsd:enumeration> -->
+								<xsd:enumeration value="bwa"/>
+								<xsd:enumeration value="soap2"/>
+								<xsd:enumeration value="shrimp"/>
+								<xsd:enumeration value="bowtie"/>
+								<xsd:enumeration value="mosaik"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element default="fastq" name="queryFormat">
+						<xsd:annotation>
+							<xsd:documentation>
+								The query must be either a FASTQ or FASTA
+								file.
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="fasta"/>
+								<xsd:enumeration value="fastq"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element default="bam" name="outputFormat">
+						<xsd:annotation>
+							<xsd:documentation>Choose the output format, either text (SAM)
+								format or compressed binary format (BAM). BAM is recommended for
+								large queries.
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="sam"/>
+								<xsd:enumeration value="bam"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element default="false" name="isColorSpace" type="xsd:boolean">
+						<xsd:annotation>
+							<xsd:documentation>Is the query sequence in color space
+								(ABI/Solid) or letter space (default)?
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element default="8" name="SeedLength" type="xsd:unsignedShort">
+						<xsd:annotation>
+							<xsd:documentation>The word size of the alignment seed; smaller
+								word sizes result in higher accuracy but increase run time.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element default="0.9" name="FractionIdentity">
+						<xsd:annotation>
+							<xsd:documentation>Minimum fraction of identical positions in the
+								alignement, only supported by lastz.
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:double">
+								<xsd:maxInclusive value="1"/>
+								<xsd:minInclusive value="0"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element default="0.9" name="MinQueryCoverage">
+						<xsd:annotation>
+							<xsd:documentation>Minimum fraction that the alignment length
+								covers in relation to the query length. Only available for lastz
+								alignments.
+							</xsd:documentation>
+						</xsd:annotation>
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:double">
+								<xsd:maxInclusive value="1"/>
+								<xsd:minInclusive value="0"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element minOccurs="0" name="MaxMismatches" type="xsd:nonNegativeInteger">
+						<xsd:annotation>
+							<xsd:documentation>Maximum number of base mismatches in an
+								alignment.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element minOccurs="0" name="MaxSeedMismatches" type="xsd:nonNegativeInteger">
+						<xsd:annotation>
+							<xsd:documentation>Maximum number of base mismatches in the seed;
+								works only for lastz.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element minOccurs="0" name="MaxIndels" type="xsd:nonNegativeInteger">
+						<xsd:annotation>
+							<xsd:documentation>Maximum total number of base insertions or
+								deletions in
+								an alignement.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element minOccurs="0" name="MaxSeedTransitions" type="xsd:nonNegativeInteger">
+						<xsd:annotation>
+							<xsd:documentation>Maximum number of insertions or deletions in
+								the seed, only for lastz alignments.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<xsd:element name="GetDataByMtom" type="tns:GetDataByMtomComplexType"/>
+			
+			<xsd:element name="GetDataByMtomResponse" type="tns:GetDataByMtomResponseComplexType"/>
+			
+		</xsd:schema>
+		
+	</types>
+	
+	
+	
+	
+	<message name="SetData_faultMsg">
+		<part name="parameters" element="tns:SetData_fault">
+		</part>
+	</message>
+	<message name="SetDataRequestMsg">
+		<part name="parameters" element="tns:SetData">
+		</part>
+	</message>
+	<message name="StartRequestMsg">
+		<part name="parameters" element="tns:Start">
+		</part>
+	</message>
+	<message name="GetData_faultMsg">
+		<part name="parameters" element="tns:GetData_fault">
+		</part>
+	</message>
+	<message name="GetDataByMtom_faultMsg">
+		<part name="parameters" element="tns:SetData_fault">
+		</part>
+	</message>
+	<message name="Start_faultMsg">
+		<part name="parameters" element="tns:Start_fault">
+		</part>
+	</message>
+	<message name="InitReponseMsg">
+		<part name="parameters" element="tns:InitResponse">
+		</part>
+	</message>
+	<message name="GetDataResponseMsg">
+		<part name="parameters" element="tns:GetDataResponse">
+		</part>
+	</message>
+	<message name="VersionRequest">
+		<part name="parameters" element="tns:Version">
+		</part>
+	</message>
+	<message name="GetStatus_faultMsg">
+		<part name="parameters" element="tns:GetStatus_fault">
+		</part>
+	</message>
+	<message name="SetParametersResponse">
+	</message>
+	<message name="GetDataByMtomRequestMsg">
+		<part name="parameters" element="tns:GetDataByMtom">
+		</part>
+	</message>
+	<message name="GetStatusResponseMsg">
+		<part name="parameters" element="tns:GetStatusResponse">
+		</part>
+	</message>
+	<message name="VersionResponseMsg">
+		<part name="parameters" element="tns:VersionResponse">
+		</part>
+	</message>
+	<message name="Init_faultMsg">
+		<part name="parameters" element="tns:Init_fault">
+		</part>
+	</message>
+	<message name="SetDataResponse">
+	</message>
+	<message name="SetParameters_faultMsg">
+		<part name="parameters" element="tns:SetParameters_fault">
+		</part>
+	</message>
+	<message name="GetStatusRequestMsg">
+		<part name="parameters" element="tns:GetStatus">
+		</part>
+	</message>
+	<message name="SetParametersRequestMsg">
+		<part name="parameters" element="tns:SetParameters">
+		</part>
+	</message>
+	<message name="GetDataByMtomResponseMsg">
+		<part name="parameters" element="tns:GetDataByMtomResponse">
+		</part>
+	</message>
+	<message name="InitRequestMsg">
+		<part name="parameters" element="tns:Init">
+		</part>
+	</message>
+	<message name="GetDataRequestMsg">
+		<part name="parameters" element="tns:GetData">
+		</part>
+	</message>
+	<message name="StartResponse">
+	</message>
+	
+	
+	
+	
+	<portType name="AlignmentServicePortType" sawsdl:modelReference="http://edamontology.org/topic_0182 http://edamontology.org/operation_3198"><!--= Sequence alignment(0182) =--><!--= Oligonucleotide alignment construction(3198) =-->
+		<documentation> This service performs (short read) local alignments of
+			FASTA/Q
+			files
+			to a reference genome. The service is implemented
+			as an
+			asynchroneous web-service using a session token.
+
+		</documentation>
+		<operation name="SetData">
+			<documentation>
+				Set the data. The data can be represented sending the
+				data inline, as
+				mime attachement, or by
+				giving a url to download from.
+			</documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_024"/>
+			<input message="tns:SetDataRequestMsg">
+			</input>
+			<output message="tns:SetDataResponse">
+			</output>
+			<fault name="fault" message="tns:SetData_faultMsg">
+			</fault>
+		</operation>
+		<operation name="Init">
+			<documentation>
+				Open a new communication session with the web-service.
+				Returns a unique token as a session identifier.
+				This is always the
+				first step in a work-flow involving this service.
+				Except
+				&quot;Version&quot;,
+				no other operation can be invoked without a
+				valid
+				sesson token.
+			</documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_023"/>
+			<input message="tns:InitRequestMsg">
+			</input>
+			<output message="tns:InitReponseMsg">
+			</output>
+			<fault name="fault" message="tns:Init_faultMsg">
+			</fault>
+		</operation>
+		<operation name="SetParameters">
+			<documentation>
+				Set the parameters for the computation. This operation
+				must be called
+				before Start.
+				This operation can be invoked multiple
+				times during a
+				session to
+				re-compute with changed parameters.
+			</documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_025"/>
+			<input message="tns:SetParametersRequestMsg">
+			</input>
+			<output message="tns:SetParametersResponse">
+			</output>
+			<fault name="fault" message="tns:SetParameters_faultMsg">
+			</fault>
+		</operation>
+		<operation name="Start">
+			<documentation> Start the actual computation with a valid session
+				token.
+			</documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_006"/>
+			<input message="tns:StartRequestMsg">
+			</input>
+			<output message="tns:StartResponse">
+			</output>
+			<fault name="fault" message="tns:Start_faultMsg">
+			</fault>
+		</operation>
+		<operation name="GetStatus">
+			<documentation> returns the status of the current computation: one of
+				INIT, SUBMITTED, INPROGRESS, INTERRUPTED, COMPLETE, or ERROR
+			</documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_007"/>
+			<input message="tns:GetStatusRequestMsg">
+			</input>
+			<output message="tns:GetStatusResponseMsg">
+			</output>
+			<fault name="fault" message="tns:GetStatus_faultMsg">
+			</fault>
+		</operation>
+		<operation name="GetData">
+			<documentation> Retrieves the resulting data of the short read
+				alignments
+			</documentation>
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008"/>
+			<input message="tns:GetDataRequestMsg">
+			</input>
+			<output message="tns:GetDataResponseMsg">
+			</output>
+			<fault name="fault" message="tns:GetData_faultMsg">
+			</fault>
+		</operation>
+		<operation name="Version">
+			<input message="tns:VersionRequest">
+				<documentation>A dummy input message, to avoid hitting a bug in
+					axis2 1.5 that doesn't allow operations without input.
+				</documentation>
+			</input>
+			<output message="tns:VersionResponseMsg">
+			</output>
+		</operation>
+		<operation name="GetDataByMtom">
+			<input message="tns:GetDataByMtomRequestMsg">
+			</input>
+			<output message="tns:GetDataByMtomResponseMsg">
+			</output>
+			<fault name="fault" message="tns:GetDataByMtom_faultMsg">
+			</fault>
+		</operation>
+	</portType>
+	
+	
+	
+	
+	<binding name="AlignmentServicePort" type="tns:AlignmentServicePortType">
+		<documentation>
+			SOAP binding using document-literal style:
+		</documentation>
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="SetData">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/SetData"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Init">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/Init"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="SetParameters">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/SetParameters"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Start">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/Start"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetStatus">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/GetStatus"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="GetData">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/GetData"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+		<operation name="Version">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/Version"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+		<operation name="GetDataByMtom">
+			<soap:operation soapAction="http://esysbio.org/AlignmentService.wsdl/GetDataByMtom"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+			<fault name="fault">
+				<soap:fault name="fault" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	
+	
+	
+	
+	<plnk:partnerLinkType name="SoranAlignmentServiceLink">
+		<plnk:role name="SoranAlignmentServiceProvider" portType="tns:AlignmentServicePortType"/>
+	</plnk:partnerLinkType>
+	
+	
+	
+	
+	<service name="SoranAlignmentService">
+		<documentation>
+			The eSysbio next-generation-sequencing alignment service provides 
+			a choice of different alignment algorithms to map reads to reference sequences.
+		</documentation>
+		<port name="SoranAlignmentPort" binding="tns:AlignmentServicePort">
+			<soap:address location="http://cbu.bioinfo.no/ws2/SoranAlignmentService/"/>
+		</port>
+	</service>
+	
+</definitions>

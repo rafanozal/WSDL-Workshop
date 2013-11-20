@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wsdl-viewer.xsl" ?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.bccs.uni.no/cbu/service/alignment/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" name="MAFFT" targetNamespace="http://www.bccs.uni.no/cbu/service/alignment/">
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bccs.uni.no/cbu/service/alignment/">
+			<!--xmlns:bx="http://bioxsd.org/BioXSD-1.1">
+			<xsd:import schemaLocation="http://bioxsd.org/BioXSD-1.1.xsd" namespace="http://bioxsd.org/BioXSD-1.1"/>-->
+			<!--<xsd:simpleType name="AlignmentProgram" sawsdl:modelReference="http://edamontology.org/data_2527 http://edamontology.org/data_1190">
+				--><!--"Parameter"(2527)--><!--
+				--><!--"Tool name"(1190)--><!--
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="MAFFT"/>
+					<xsd:enumeration value="CLUSTALW"/>
+				</xsd:restriction>
+			</xsd:simpleType>-->
+			<xsd:simpleType name="SequenceType" sawsdl:modelReference="http://edamontology.org/data_1094">
+				<!--"Sequence type"(1094)-->
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="AMINOACID"/>
+					<xsd:enumeration value="NUCLEOTIDE"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<!--<xsd:element name="alignBioxsd">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sequence" type="bx:BiosequenceRecord" minOccurs="2" maxOccurs="1000"/>
+						<xsd:element name="program" type="tns:AlignmentProgram"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="alignBioxsdResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobid" type="xsd:string" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>-->
+			<xsd:element name="getJobStatus">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobid" type="xsd:string" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getJobStatusResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="status" type="xsd:string" sawsdl:modelReference="http://wsio.org/data_010"/>
+						<!--<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="IN_PROGRESS" sawsdl:modelReference="http://wsio.org/data_027"/>
+									<xs:enumeration value="COMPLETE" sawsdl:modelReference="http://wsio.org/data_028"/>
+									<xs:enumeration value="ABORTED" sawsdl:modelReference="http://wsio.org/data_029"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>-->
+						<xsd:element name="error_type" type="xsd:string"/>
+						<xsd:element name="message" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="alignFasta">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="sequence" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_2043 http://edamontology.org/format_2200"/>
+						<!--"Sequence record lite"(2043)-->
+						<xsd:element name="sequence_type" type="tns:SequenceType"/>
+						<xsd:element name="program" fixed="MAFFT"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="alignFastaResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobid" type="xsd:string" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getResultFasta">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobid" type="xsd:string" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getResultFastaResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="resultFasta" type="xsd:string" sawsdl:modelReference="http://edamontology.org/data_0863 http://edamontology.org/format_2200"/>
+						<!--"Sequence alignment"(0863)-->
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<!--<xsd:element name="getResultBioxsd">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="jobid" type="xsd:string" sawsdl:modelReference="http://wsio.org/data_009"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="getResultBioxsdResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="resultBioxsd" type="bx:BiosequenceAlignment"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>-->
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="getJobStatusRequest">
+		<wsdl:part name="parameters" element="tns:getJobStatus"/>
+	</wsdl:message>
+	<wsdl:message name="getJobStatusResponse">
+		<wsdl:part name="parameters" element="tns:getJobStatusResponse"/>
+	</wsdl:message>
+	<wsdl:message name="alignFastaRequest">
+		<wsdl:part name="parameters" element="tns:alignFasta"/>
+	</wsdl:message>
+	<wsdl:message name="alignFastaResponse">
+		<wsdl:part name="parameters" element="tns:alignFastaResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getResultFastaRequest">
+		<wsdl:part name="parameters" element="tns:getResultFasta"/>
+	</wsdl:message>
+	<wsdl:message name="getResultFastaResponse">
+		<wsdl:part name="parameters" element="tns:getResultFastaResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="Alignment" sawsdl:modelReference="http://edamontology.org/topic_0182 http://edamontology.org/operation_0492">
+		<!--"Sequence alignment"(0182)-->
+		<!--"Multiple sequence alignment construction"(0492)-->
+		<!--<wsdl:operation name="alignBioxsd">
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_006"/>
+			<wsdl:input message="tns:alignBioxsdRequest"/>
+			<wsdl:output message="tns:alignBioxsdResponse"/>
+		</wsdl:operation>-->
+		<wsdl:operation name="getJobStatus">
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_007"/>
+			<wsdl:input message="tns:getJobStatusRequest"/>
+			<wsdl:output message="tns:getJobStatusResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="alignFasta">
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_006"/>
+			<wsdl:input message="tns:alignFastaRequest"/>
+			<wsdl:output message="tns:alignFastaResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getResultFasta">
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008"/>
+			<wsdl:input message="tns:getResultFastaRequest"/>
+			<wsdl:output message="tns:getResultFastaResponse"/>
+		</wsdl:operation>
+		<!--<wsdl:operation name="getResultBioxsd">
+			<sawsdl:attrExtensions sawsdl:modelReference="http://wsio.org/operation_008"/>
+			<wsdl:input message="tns:getResultBioxsdRequest"/>
+			<wsdl:output message="tns:getResultBioxsdResponse"/>
+		</wsdl:operation>-->
+	</wsdl:portType>
+	<wsdl:binding name="Alignment" type="tns:Alignment">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<!--<wsdl:operation name="alignBioxsd">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/alignment/alignBioxsd"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>-->
+		<wsdl:operation name="getJobStatus">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/alignment/getJobStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="alignFasta">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/alignment/alignFasta"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getResultFasta">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/alignment/getResultFasta"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!--<wsdl:operation name="getResultBioxsd">
+			<soap:operation soapAction="http://www.bccs.uni.no/cbu/service/alignment/getResultBioxsd"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>-->
+	</wsdl:binding>
+	<wsdl:service name="alignment">
+		<wsdl:port name="alignmentSOAP" binding="tns:Alignment">
+			<soap:address location="http://cbu.bioinfo.no/ws/alignment"/>
+		</wsdl:port>
+	</wsdl:service>
+	<!--<wsdl:message name="alignBioxsdRequest">
+		<wsdl:part name="parameters" element="tns:alignBioxsd"/>
+	</wsdl:message>
+	<wsdl:message name="alignBioxsdResponse">
+		<wsdl:part name="parameters" element="tns:alignBioxsdResponse"/>
+	</wsdl:message>-->
+	<!--<wsdl:message name="getResultBioxsdRequest">
+		<wsdl:part name="parameters" element="tns:getResultBioxsd"/>
+	</wsdl:message>
+	<wsdl:message name="getResultBioxsdResponse">
+		<wsdl:part name="parameters" element="tns:getResultBioxsdResponse"/>
+	</wsdl:message>-->
+</wsdl:definitions>
